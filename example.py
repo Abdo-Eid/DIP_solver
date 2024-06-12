@@ -128,19 +128,38 @@ bit_dipth = 4
 
 # display_matrices([mat,result],['original','result'], coordinates=True)
 
-mat=[[30,10,15,15,15],
-    [30,20,15,15,20],
-    [20,10,20,10,20],
-    [25,25,24,10,20],
-    [30,20,20,20,20]]
+# mat=[[30,10,15,15,15],
+#     [30,20,15,15,20],
+#     [20,10,20,10,20],
+#     [25,25,24,10,20],
+#     [30,20,20,20,20]]
 
-# se2 = [[0,0,0],
-#       [0,1,0],
-#       [0,0,0]]
+# # se2 = [[0,0,0],
+# #       [0,1,0],
+# #       [0,0,0]]
 
-se2 = [[0,0],
-      [0,1]]
+# se2 = [[0,0],
+#       [0,1]]
 
-# result = convolute(mat,Kernals.robert_operator,None,5)
-result = robert_operator(mat,5,0)
-display_matrices([mat,result],['original','result'], coordinates=True)
+# # result = convolute(mat,Kernals.robert_operator,None,5)
+# result = robert_operator(mat,5,0)
+# display_matrices([mat,result],['original','result'], coordinates=True)
+
+im = [[1,1,1,1,0,0],
+      [1,0,0,1,1,0],
+      [0,1,0,0,1,0],
+      [0,0,1,1,1,0],
+      [0,0,0,0,0,0]]
+
+se1 = [[1,0,1],
+      [1,1,0],
+      [0,0,1]]
+
+
+# se = complement(se,1)
+# x1 = hole_filling(im,se1,(2,3),1)
+# x2 = hole_filling(im,se1,(2,3),2)
+# x3 = hole_filling(im,se1,(2,3),3)
+xs = [*hole_filling_X_gen(im,se1,(2,3),3)]
+
+plot_morphology(xs,['X 0','X 1','X 2','X 3'])

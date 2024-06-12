@@ -453,6 +453,15 @@ def _rotate_90_clockwise(matrix: Matrix) -> Matrix:
     
     return clockwise_rotated
 
+def _rotate_180_clockwise(matrix: Matrix) -> Matrix:
+    if not matrix:
+        return []
+
+    # Reverse each row and each column
+    rotated = [list(reversed(row)) for row in list(reversed(matrix))]
+    
+    return rotated
+
 def robert_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
             
     h1 = Kernals.robert_operator
@@ -543,6 +552,7 @@ def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
     """
     height = len(matrix)
     width = len(matrix[0])
+    SE = _rotate_180_clockwise(SE)
     SE_w = len(SE[0])
     SE_h = len(SE)
 
@@ -604,9 +614,9 @@ def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
     """
     height = len(matrix)
     width = len(matrix[0])
+    SE = _rotate_180_clockwise(SE)
     SE_w = len(SE[0])
     SE_h = len(SE)
-
     # subtract the added offset to get the original matrix
     # we're sliding on the padded image, but we need the center in the original image
     offset_w,offset_h = DP.get_center(SE_w,SE_h)
@@ -618,7 +628,6 @@ def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
     matrix = pad(matrix,(SE_w,SE_h),pad_with=0)
 
     for neighbers, center in _neighborhood_with_center(matrix,(SE_w,SE_h)):
-
         fits = True
 
         # loop on each element of the strucure and the neighbers
@@ -736,7 +745,6 @@ def hole_filling(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itirat
 
     X_prev = [[0] * len(matrix[0]) for _ in range(len(matrix))]
     X_prev[x_0_indx[0]][x_0_indx[1]] = 1
-
     complement_A = DP.complement(matrix,1)
 
     for _ in range(max_itiration):
@@ -755,6 +763,27 @@ def hole_filling(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itirat
     result = union(X_k, matrix)
 
     return result
+
+def hole_filling_X_gen(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itiration:int = 10) -> Generator[Matrix,None,None]:
+
+    X_prev = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    X_prev[x_0_indx[0]][x_0_indx[1]] = 1
+    complement_A = DP.complement(matrix,1)
+    yield X_prev
+
+    for _ in range(max_itiration):
+        # Compute X_k = (X_{k-1} ⊕ B) ∩ A^c
+        dilated_X_prev  = dilation(X_prev, SE)
+        X_k = intersection(dilated_X_prev, complement_A)
+
+        # Check for convergence
+        if X_k == X_prev:
+            yield X_k
+            break
+
+        # Update X_prev for next iteration
+        X_prev = X_k
+        yield X_k
 
 def hit_or_miss(matrix: Matrix, SE1: Matrix, SE2: Matrix) -> Matrix:
 

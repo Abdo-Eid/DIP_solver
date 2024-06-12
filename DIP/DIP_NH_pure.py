@@ -444,6 +444,32 @@ def adaptive_filter(matrix, kernel_dim:Tuple[int,int], pad_with:int = None) -> M
 
     return output_mat
 
+# -------------------- Edge Detection --------------------------
+
+def _rotate_90_clockwise(matrix: Matrix) -> Matrix:
+    if not matrix:
+        return []
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    # Transpose the matrix
+    transposed = [[matrix[j][i] for j in range(rows)] for i in range(cols)]
+    
+    # Reverse each row to get the clockwise rotation
+    clockwise_rotated = [list(reversed(row)) for row in transposed]
+    
+    return clockwise_rotated
+
+def robert_operator():
+    pass
+
+def prewitt_operator():
+    pass
+
+def sobel_operator():
+    pass
+
 # -------------------- morphology --------------------------
 
 def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
@@ -569,3 +595,132 @@ def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
             output_mat[center[0] - offset_h][center[1]- offset_w] = 1
 
     return output_mat
+
+def opening(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform opening operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the opening operation is applied.
+    - `SE` (Matrix): The structuring element used for the opening operation.
+
+    Returns:
+    - `Matrix`: The result of the opening operation on the matrix.
+
+    Description:
+    This function performs an opening operation on the `matrix` using the specified structuring element `SE`. The opening process consists of an erosion followed by a dilation using the same structuring element. This operation is useful for removing small objects from the foreground (usually taken as the bright pixels) of an image, placing them in the background, while preserving the shape and size of larger objects in the image.
+
+    Example:
+    >>> matrix = [[0,0,0,0,0,0], 
+    ...          [0,1,1,1,1,0], 
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,1,1,0]]
+    >>> SE = [[1,1]
+             ,[0,1]]
+    >>> result = opening(matrix,SE)
+    >>> result
+        [[0, 0, 0, 0, 0, 0]
+        ,[0, 0, 0, 0, 0, 0]
+        ,[0, 0, 1, 0, 1, 0]
+        ,[0, 0, 1, 1, 1, 1]
+        ,[0, 0, 1, 1, 0, 0]]
+    """
+    eroded = erosion(matrix, SE)
+    result = dilation(eroded, SE)
+    return result
+
+def closing(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform closing operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the closing operation is applied.
+    - `SE` (Matrix): The structuring element used for the closing operation.
+
+    Returns:
+    - `Matrix`: The result of the closing operation on the matrix.
+
+    Description:
+    This function performs a closing operation on the `matrix` using the specified structuring element `SE`. The closing process consists of a dilation followed by an erosion using the same structuring element. This operation is useful for closing small holes in the foreground, bridging small gaps, and generally smoothing the outline of objects while keeping their sizes and shapes approximately the same.
+
+    Example:
+    >>> matrix = [[0,0,0,0,0,0], 
+    ...          [0,1,1,1,1,0], 
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,1,1,0]]
+    >>> SE = [[1,1]
+             ,[0,1]]
+    >>> result = closing(matrix,SE)
+    >>> result
+        [[0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0], 
+        [0, 0, 1, 1, 1, 0], 
+        [0, 0, 1, 1, 1, 1], 
+        [0, 0, 1, 1, 1, 1]]
+    """
+    dilated = dilation(matrix, SE)
+    result = erosion(dilated, SE)
+    return result
+
+def internal_extraction(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    eroded_matrix = erosion(matrix, SE)
+
+    # Subtract the eroded image from the original image to get the external boundary
+    result_matrix = [[DP.clip(matrix[i][j] - eroded_matrix[i][j],0,1) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def external_extraction(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    dilated_matrix = dilation(matrix, SE)
+    
+    # Subtract the original image from the dilated image to get the external boundary
+    result_matrix = [[DP.clip(dilated_matrix[i][j] - matrix[i][j],0,1) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def morphology_gradient(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    dilated_matrix = dilation(matrix, SE)
+
+    eroded_matrix = erosion(matrix, SE)
+    
+    result_matrix = [[abs(dilated_matrix[i][j] - eroded_matrix[i][j]) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def hole_filling(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itiration:int = 100) -> Matrix:
+
+    X_prev = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    X_prev[x_0_indx[0]][x_0_indx[1]] = 1
+
+    complement_A = DP.complement(matrix,1)
+
+    for _ in range(max_itiration):
+        # Compute X_k = (X_{k-1} ⊕ B) ∩ A^c
+        dilated_X_prev  = dilation(X_prev, SE)
+        X_k = intersection(dilated_X_prev, complement_A)
+
+        # Check for convergence
+        if X_k == X_prev:
+            break
+
+        # Update X_prev for next iteration
+        X_prev = X_k
+
+    # Combine filled hole with original foreground
+    result = union(X_k, matrix)
+
+    return result
+
+def hit_or_miss(matrix: Matrix, SE1: Matrix, SE2: Matrix) -> Matrix:
+
+    complement_A = DP.complement(matrix,1)
+
+    A_erosion = erosion(matrix,SE1)
+    A_c_dilation = erosion(complement_A,SE2)
+    result = intersection(A_erosion,A_c_dilation)
+    return result

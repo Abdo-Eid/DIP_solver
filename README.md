@@ -3,7 +3,14 @@
 this is a small project to help me and my collegs in solving DIP (digital image processing) problems and practice it.
 
 ## getting started 
-first you can make a random matrix using 
+**it's better to use it in the IDLE**
+
+start by import the package
+```py
+from DIP import *
+```
+
+then first you can make a random matrix using 
 `make_random(width: int = 3, height: int = 3, bit_depth: int = 8) -> Matrix`
 
 ```py

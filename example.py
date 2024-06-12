@@ -1,8 +1,30 @@
 from DIP import *
-from DIP.DIP_NH_pure import _neighborhoods_of_pixel, _neighborhood_with_center
 
+# for this you need to install matplotlib
+# pip install matplotlib
 
-b = 4
+def plot_morphology(images, titles):
+    import matplotlib.pyplot as plt
+    fig, axes = plt.subplots(1, len(images), figsize=(15, 5))
+    for ax, img, title in zip(axes, images, titles):
+        # setting vmin=0 and vmax=1, you ensure that 0 is mapped to white and 1 is mapped to black,
+        # as intended when using the gray_r colormap.
+        ax.imshow(img, cmap='gray_r', vmin=0, vmax=1)
+        ax.set_title(title)
+        ax.axis('off')
+
+        # Add border around each element
+        num_rows, num_cols = len(img),len(img[0])
+        for i in range(num_rows):
+            for j in range(num_cols):
+                rect = plt.Rectangle((j-0.5, i-0.5), 1, 1, fill=False, edgecolor='black', linewidth=1)
+                ax.add_patch(rect)
+
+    plt.show()
+
+# --------------------------------------------------------------------------------
+
+bit_dipth = 4
 
 # t = [1,0,5,0,6,6,2,5]
 # equalized_matrix = histogram_matching(matrix,target_histogram=t, show=True)
@@ -65,20 +87,31 @@ b = 4
 
 # display_matrices([matched_matrix],text=["Histogram Matching Result:"])
 
-im = [[1,0,0,0,0],
-      [0,0,0,0,0],
-      [0,0,1,1,0],
-      [0,1,1,1,0],
-      [1,1,1,1,0],
-      [1,1,0,1,0]]
+im = [[0,0,0,0,0,0,0,0],
+      [0,0,0,1,1,0,0,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [0,1,1,1,1,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,0,0,1,1,0,0,0],
+      [0,0,0,0,0,0,0,0]]
 
-se = [[0,1,0],
-      [1,0,1],
-      [0,1,0]]
+# im = [[0,0,0,0],
+#       [0,1,0,0],
+#       [0,0,0,0]]
 
-result = erosion(im,se)
+se1 = [[0,0,0],
+      [0,1,0],
+      [0,0,0]]
 
-plot_morphology([im,se,result],['image','se','result'])
+se2 = [[0,0,0],
+      [0,1,0],
+      [0,0,0]]
+
+# se = complement(se,1)
+result = hit_or_miss(im,se1,se2)
+
+plot_morphology([im,se1,se2,result],['image','se1','se2','hole filling'])
 
 # display_matrices([im, result])
 

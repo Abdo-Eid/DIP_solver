@@ -1,64 +1,106 @@
-# intro
+# Digital Image Processing Helper
 
-this is a small project to help me and my collegs in solving DIP (digital image processing) problems and practice it.
+## Introduction
 
-## getting started 
-**it's better to use it in the IDLE**
+This project provides tools for solving Digital Image Processing (DIP) problems, aimed at helping me and my colleagues practice and understand core concepts in DIP.
 
-start by import the package
-```py
-from DIP import *
-```
+## Installation
 
-then first you can make a random matrix using 
-`make_random(width: int = 3, height: int = 3, bit_depth: int = 8) -> Matrix`
+1. **Clone the Repository**  
+   ```bash
+   git clone <repository_url>
+   ```
 
-```py
-width = 3
-height = 3
-bit_depth = 8
-img1 = make_random(width, height, bit_depth)
-```
+2. **Navigate to the Project Directory**  
+   ```bash
+   cd DIP_solver
+   ```
+3. **Optionally if you will contribute make virtual environment**
+   ```bash
+   python -m venv .venv
+   ```
+   - **Activate the virtual environment**
+   ```bash
+   .\.venv\Scripts\activate
+   ```
 
-then chosing a kernal from `Kernals` class
-```py
-kernel1 = Kernals.smoothing_filter
-```
+   - **Install requirements**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-and display the matrix or many matrice using `display_matrices(list_of_matrices: List[Matrix], text: List[str] = [], coordinates: bool = False)`
-```py
-display_matrices( [img1, kernel1] )
-```
-```
-Matrix 1:
-[ 125 208 136 ]
-[ 130   1 240 ]
-[  93 207 170 ]
+4. **Install the Package**
+   - f you will contribute install the package in your environment in editable mode:
+   ```bash
+   pip install -e .
+   ```
 
-Matrix 2:
-[ 0.111 0.111 0.111 ]
-[ 0.111 0.111 0.111 ]
-[ 0.111 0.111 0.111 ]
-```
+   - install the package and dependencies in your environment:
+   ```bash
+   pip install .
+   ```
 
-[see the documentaions for more](docs.md)
+## Getting Started
 
-# The Story
+> **Note:** Using this project in IDLE or an interactive Python environment is recommended.
 
-the project started as I wanted to know how the implementation of some algorithms and operations in a collage course for Digital Image Processing so it was implemented in numpy (faster and I only want to learn the concept) but after a while I said why not make it **pure python**? so no external librarys needed, and then give the code to my colleges to use it to solve any problem they want... then I said why not already make a TUI (Text based User Interface) quizzes app and adhering to the principal I tried to make it my self.
+1. **Import the Package**  
+   Start by importing the package:
+   ```python
+   from DIP.helper import make_random
+   ```
 
-# what i learned
-- how to document a python code focused
-- using pydocs and focus self explanatory code
-- also making docs for how to use the code
-- learning a lot more about python
+2. **Create a Random Matrix**  
+   You can generate a random matrix with the function `make_random(width: int = 3, height: int = 3, bit_depth: int = 8) -> Matrix`.
+   ```python
+   width = 3
+   height = 3
+   bit_depth = 8
+   img1 = make_random(width, height, bit_depth)
+   ```
 
-# to-do
--   [ ] add give me a question option (chose a thing, gives you matrix a pixel to work on or just work on the whole thing then waits for you answer and can calc time)
--   [ ] adding a steps parameter to show the steps of the algorithm
--   [ ] add bit depth for max value of segmentaion in thresholding
--   [x] resize function not like lecture
+3. **Choose a Kernel**  
+   Import a predefined kernel from the `Kernels` class:
+   ```python
+   from DIP.neighborhood_operations import Kernals
+   kernel1 = Kernals.smoothing_filter
+   ```
 
-# what's next
--   implement the code using numpy and oop
--   make a text base user interface
+4. **Display Matrices**  
+   Display one or more matrices using `display_matrices(list_of_matrices: List[Matrix], text: Optional[List[str]] = None, coordinates: bool = False)`:
+   ```python
+   display_matrices([img1, kernel1])
+   ```
+   Sample output:
+   ```
+   Matrix 1:
+   [ 125 208 136 ]
+   [ 130   1 240 ]
+   [  93 207 170 ]
+
+   Matrix 2:
+   [ 0.111 0.111 0.111 ]
+   [ 0.111 0.111 0.111 ]
+   [ 0.111 0.111 0.111 ]
+   ```
+
+### Documentation
+For full documentation, see [docs.md](docs/documentaion.md).
+
+## The Story
+
+The project started because I wanted to understand the implementation of some algorithms and operations for a college course on Digital Image Processing. At first, I built it in NumPy—faster, and I just wanted to learn the concepts. But then I thought, why not make it **pure Python**? This way, there are no external libraries needed, and I could share the code with my classmates so they could use it to solve any problem they wanted.
+
+Then the idea grew: why not make a TUI (Text-based User Interface) and quiz app that sticks to this DIY principle? I decided to build it entirely myself to deepen my understanding and give my classmates a useful, accessible tool.
+
+## What I Learned
+
+- Writing clear and helpful documentation
+- Using Pydoc and focusing on self-explanatory code
+- Creating guides on using code effectively
+- Gaining deeper knowledge of Python
+
+## What's Next
+
+- Reimplement the project using NumPy and OOP principles
+- make a text base user interface (TUI)

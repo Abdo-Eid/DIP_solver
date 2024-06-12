@@ -1,30 +1,32 @@
 from DIP import *
 
-# for this you need to install matplotlib
-# pip install matplotlib
-
-def plot_morphology(images, titles):
-    import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, len(images), figsize=(15, 5))
-    for ax, img, title in zip(axes, images, titles):
-        # setting vmin=0 and vmax=1, you ensure that 0 is mapped to white and 1 is mapped to black,
-        # as intended when using the gray_r colormap.
-        ax.imshow(img, cmap='gray_r', vmin=0, vmax=1)
-        ax.set_title(title)
-        ax.axis('off')
-
-        # Add border around each element
-        num_rows, num_cols = len(img),len(img[0])
-        for i in range(num_rows):
-            for j in range(num_cols):
-                rect = plt.Rectangle((j-0.5, i-0.5), 1, 1, fill=False, edgecolor='black', linewidth=1)
-                ax.add_patch(rect)
-
-    plt.show()
-
 # --------------------------------------------------------------------------------
 
 bit_dipth = 4
+
+
+im = [[0,0,0,0,0,0,0,0],
+      [0,0,0,1,1,0,0,0],
+      [0,0,1,1,1,1,0,0],
+      [0,1,1,1,1,1,1,0],
+      [0,1,1,1,1,1,1,0],
+      [0,0,1,1,1,1,0,0],
+      [0,0,0,1,1,0,0,0],
+      [0,0,0,0,0,0,0,0]]
+
+se1 = [[0,1,0],
+      [1,1,0],
+      [0,1,0]]
+
+se2 = [[1,0,0],
+      [0,0,0],
+      [1,0,0]]
+
+result = hit_or_miss(im, se1, se2)
+
+# plot_morphology([im, se1, se2, result], ['Image', 'SE1', 'SE2', 'Hit or Miss'],
+#                 draw_border=True, show_numbers=True, show_axis=True, figure_scale=0.5)
+display_matrices([im, result])
 
 # t = [1,0,5,0,6,6,2,5]
 # equalized_matrix = histogram_matching(matrix,target_histogram=t, show=True)
@@ -87,34 +89,6 @@ bit_dipth = 4
 
 # display_matrices([matched_matrix],text=["Histogram Matching Result:"])
 
-# im = [[0,0,0,0,0,0,0,0],
-#       [0,0,0,1,1,0,0,0],
-#       [0,0,1,1,1,1,0,0],
-#       [0,1,1,1,1,1,1,0],
-#       [0,1,1,1,1,1,1,0],
-#       [0,0,1,1,1,1,0,0],
-#       [0,0,0,1,1,0,0,0],
-#       [0,0,0,0,0,0,0,0]]
-
-# # im = [[0,0,0,0],
-# #       [0,1,0,0],
-# #       [0,0,0,0]]
-
-# se1 = [[0,0,0],
-#       [0,1,0],
-#       [0,0,0]]
-
-# se2 = [[0,0,0],
-#       [0,1,0],
-#       [0,0,0]]
-
-# # se = complement(se,1)
-# result = hit_or_miss(im,se1,se2)
-
-# plot_morphology([im,se1,se2,result],['image','se1','se2','hole filling'])
-
-# display_matrices([im, result])
-
 # mat = [[180,245,250,220],[210,225,215,215],[218,230,220,212],[222,215,218,210]]
 # result = automatic_threshold(mat,.9,show_steps=True)
 
@@ -128,19 +102,50 @@ bit_dipth = 4
 
 # display_matrices([mat,result],['original','result'], coordinates=True)
 
-mat=[[30,10,15,15,15],
-    [30,20,15,15,20],
-    [20,10,20,10,20],
-    [25,25,24,10,20],
-    [30,20,20,20,20]]
+# mat=[[30,10,15,15,15],
+#     [30,20,15,15,20],
+#     [20,10,20,10,20],
+#     [25,25,24,10,20],
+#     [30,20,20,20,20]]
 
-# se2 = [[0,0,0],
-#       [0,1,0],
-#       [0,0,0]]
+# # se2 = [[0,0,0],
+# #       [0,1,0],
+# #       [0,0,0]]
 
-se2 = [[0,0],
-      [0,1]]
+# se2 = [[0,0],
+#       [0,1]]
 
-# result = convolute(mat,Kernals.robert_operator,None,5)
-result = robert_operator(mat,5,0)
-display_matrices([mat,result],['original','result'], coordinates=True)
+# # result = convolute(mat,Kernals.robert_operator,None,5)
+# result = robert_operator(mat,5,0)
+# display_matrices([mat,result],['original','result'], coordinates=True)
+
+# im = [[1,1,1,1,0],
+#       [1,0,0,1,1],
+#       [0,1,0,0,1],
+#       [0,0,1,1,1],
+#       [0,0,0,0,0]]
+
+# se1 = [[1,0,1],
+#       [1,1,0],
+#       [0,0,1]]
+
+# xs = [*hole_filling_X_gen(im,se1,(2,3),3)]
+
+# plot_morphology(xs)
+
+
+# im = [
+#         [3, 0],
+#         [2, 1],
+#         [5, 3],
+#         [4, 1]
+#     ]
+
+# se = [
+#         [1],
+#         [1],
+#         [1],
+#         [1]
+#     ]
+
+# display_matrices([rank_order_filter(im,(2,3),1,pad_with=0)])

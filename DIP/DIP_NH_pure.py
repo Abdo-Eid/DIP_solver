@@ -233,7 +233,7 @@ def _neighborhood_with_center(matrix: Matrix, kernel_dim: Tuple[int,int]) -> Gen
             neighbors_with_center = [r[col:col + k_w] for r in matrix[row:row + k_h]],(row+k_center[0],col + k_center[1])
             yield neighbors_with_center
 
-def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = 8) -> Matrix:
+def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = None) -> Matrix:
     """
     Perform convolution operation on a matrix using a given kernel.
 
@@ -262,8 +262,9 @@ def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int =
     [-15, -6, 15],
     [-13, -4, 13]]
     """
+    if bit_depth == None:
+        bit_depth = bit_depth_from_mat(matrix)
 
-    bit_depth = bit_depth_from_mat(matrix)
     max_value = 2 ** bit_depth - 1
     
     height = len(matrix)
@@ -279,31 +280,22 @@ def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int =
 
     if pad_with == None:
         # make smaller matrix
-        height = height - top - down
-        width = width - left - right
-        output_mat = [[pad_with for _ in range(width)] for _ in range(height)]
+        output_mat = [[pad_with for _ in range(width - left - right)] for _ in range(height - top - down)]
+
     elif isinstance(pad_with,int):
         # output will be same size as original in this case
         output_mat = [[pad_with for _ in range(width)] for _ in range(height)]
-    
 
-        # make bigger padded matrix 
-        pad_h = height + top + down
-        pad_w = width + left + right
-        pad_matrix = [[pad_with for _ in range(pad_w)] for _ in range(pad_h)]
-
-        # loop on the old matrix to copy the values with offset of kernel center
-        for r in range(height):
-            for c in range(width):
-                pad_matrix[r + top][c + left] = matrix[r][c]
-        
-        matrix = pad_matrix
+        matrix = pad(matrix,(k_w,k_h),pad_with)
+        # get the new dimentions to work on
+        height = len(matrix)
+        width = len(matrix[0])
     else:
         raise ValueError("padding must be None or integer")
 
     # going from 0 to the last place the kernel center can be located in so the filter is in the image
-    for row in range(0,height - down + 1 ):
-        for col in range(0,width - right + 1):
+    for row in range(0, height - top - down):
+        for col in range(0, width - left - right):
             # getting the values same size as the filter 
             neighborhood = [r[col:col + k_w] for r in matrix[row:row + k_h]]
             # for every row in neighborhood and kernal and for each element in both rows multiply elements then sum all
@@ -461,14 +453,62 @@ def _rotate_90_clockwise(matrix: Matrix) -> Matrix:
     
     return clockwise_rotated
 
-def robert_operator():
-    pass
+def robert_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.robert_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
 
-def prewitt_operator():
-    pass
+    f1 = convolute(matrix,h1, pad_with, bit_depth)
+    f2 = convolute(matrix,h2, pad_with, bit_depth)
 
-def sobel_operator():
-    pass
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
+
+def prewitt_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.prewitt_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
+
+    f1 = convolute(matrix,h1, pad_with, bit_depth)
+    f2 = convolute(matrix,h2, pad_with, bit_depth)
+
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
+
+def sobel_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.sobel_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
+
+    f1 = convolute(matrix,h1, pad_with, bit_depth)
+    f2 = convolute(matrix,h2, pad_with, bit_depth)
+
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
 
 # -------------------- morphology --------------------------
 

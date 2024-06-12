@@ -87,31 +87,31 @@ bit_dipth = 4
 
 # display_matrices([matched_matrix],text=["Histogram Matching Result:"])
 
-im = [[0,0,0,0,0,0,0,0],
-      [0,0,0,1,1,0,0,0],
-      [0,0,1,1,1,1,0,0],
-      [0,1,1,1,1,1,1,0],
-      [0,1,1,1,1,1,1,0],
-      [0,0,1,1,1,1,0,0],
-      [0,0,0,1,1,0,0,0],
-      [0,0,0,0,0,0,0,0]]
+# im = [[0,0,0,0,0,0,0,0],
+#       [0,0,0,1,1,0,0,0],
+#       [0,0,1,1,1,1,0,0],
+#       [0,1,1,1,1,1,1,0],
+#       [0,1,1,1,1,1,1,0],
+#       [0,0,1,1,1,1,0,0],
+#       [0,0,0,1,1,0,0,0],
+#       [0,0,0,0,0,0,0,0]]
 
-# im = [[0,0,0,0],
-#       [0,1,0,0],
-#       [0,0,0,0]]
+# # im = [[0,0,0,0],
+# #       [0,1,0,0],
+# #       [0,0,0,0]]
 
-se1 = [[0,0,0],
-      [0,1,0],
-      [0,0,0]]
+# se1 = [[0,0,0],
+#       [0,1,0],
+#       [0,0,0]]
 
-se2 = [[0,0,0],
-      [0,1,0],
-      [0,0,0]]
+# se2 = [[0,0,0],
+#       [0,1,0],
+#       [0,0,0]]
 
-# se = complement(se,1)
-result = hit_or_miss(im,se1,se2)
+# # se = complement(se,1)
+# result = hit_or_miss(im,se1,se2)
 
-plot_morphology([im,se1,se2,result],['image','se1','se2','hole filling'])
+# plot_morphology([im,se1,se2,result],['image','se1','se2','hole filling'])
 
 # display_matrices([im, result])
 
@@ -127,3 +127,20 @@ plot_morphology([im,se1,se2,result],['image','se1','se2','hole filling'])
 # result = convolute(mat,Kernals.laplacian_operator,pad_with=0)
 
 # display_matrices([mat,result],['original','result'], coordinates=True)
+
+mat=[[30,10,15,15,15],
+    [30,20,15,15,20],
+    [20,10,20,10,20],
+    [25,25,24,10,20],
+    [30,20,20,20,20]]
+
+# se2 = [[0,0,0],
+#       [0,1,0],
+#       [0,0,0]]
+
+se2 = [[0,0],
+      [0,1]]
+
+# result = convolute(mat,Kernals.robert_operator,None,5)
+result = robert_operator(mat,5,0)
+display_matrices([mat,result],['original','result'], coordinates=True)

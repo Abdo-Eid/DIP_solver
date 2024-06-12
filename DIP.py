@@ -65,31 +65,32 @@ b = 4
 
 # display_matrices([matched_matrix],text=["Histogram Matching Result:"])
 
-# im = [[1,0,0,0,0],
-#       [0,0,0,0,0],
-#       [0,0,1,1,0],
-#       [0,1,1,1,0],
-#       [1,1,1,1,0],
-#       [1,1,0,1,0]]
+im = [[1,0,0,0,0],
+      [0,0,0,0,0],
+      [0,0,1,1,0],
+      [0,1,1,1,0],
+      [1,1,1,1,0],
+      [1,1,0,1,0]]
 
-# se = [[0,1,0],
-#       [1,0,1],
-#       [0,1,0]]
+se = [[0,1,0],
+      [1,0,1],
+      [0,1,0]]
 
-# result = dialtion(im,se)
+result = erosion(im,se)
 
+plot_morphology([im,se,result],['image','se','result'])
 
 # display_matrices([im, result])
 
 # mat = [[180,245,250,220],[210,225,215,215],[218,230,220,212],[222,215,218,210]]
 # result = automatic_threshold(mat,.9,show_steps=True)
 
-mat = [[50,60,110,20,200],
-        [40,50,30,50,90],
-        [35,70,150,50,120],
-        [40,150,200,160,50],
-        [30,200,120,120,40]]
+# mat = [[50,60,110,20,200],
+#         [40,50,30,50,90],
+#         [35,70,150,50,120],
+#         [40,150,200,160,50],
+#         [30,200,120,120,40]]
 
-result = convolute(mat,Kernals.laplacian_operator,pad_with=0)
+# result = convolute(mat,Kernals.laplacian_operator,pad_with=0)
 
-display_matrices([mat,result],['original','result'], coordinates=True)
+# display_matrices([mat,result],['original','result'], coordinates=True)

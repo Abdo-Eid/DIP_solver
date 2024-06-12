@@ -446,9 +446,34 @@ def adaptive_filter(matrix, kernel_dim:Tuple[int,int], pad_with:int = None) -> M
 
 # -------------------- morphology --------------------------
 
-def dialtion(matrix: Matrix, SE: Matrix) -> Matrix:
+def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
     """
-    takes a binary image and a structure element and perform dialation
+    Perform dilation operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the dilation is applied.
+    - `SE` (Matrix): The structuring element used for the dilation operation.
+
+    Returns:
+    - `Matrix`: The result of the dilation operation on the matrix.
+
+    Description:
+    This function performs a dilation operation on the `matrix` using the specified structuring element `SE`. The dilation process involves sliding the SE over the matrix and checking if any '1' pixel in the SE aligns with a '1' pixel in the matrix neighborhood. If such an overlap is found, the center pixel of the neighborhood is set to '1' in the output matrix; otherwise, it remains '0'. The output matrix has the same size as the input matrix.
+
+    Example:
+    ```python
+    >>> matrix = [[1, 0, 0, 0],
+    ...           [0, 0, 0, 0],
+    ...           [0, 0, 0, 0],
+    ...           [0, 0, 0, 1]]
+    >>> SE = [[1, 1],
+    ...       [1, 1]]
+    >>> result = dilation(matrix, SE)
+    >>> result
+    [[1, 1, 0, 0],
+    [1, 1, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 1]]
     """
     height = len(matrix)
     width = len(matrix[0])
@@ -483,6 +508,34 @@ def dialtion(matrix: Matrix, SE: Matrix) -> Matrix:
     return output_mat
 
 def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform erosion operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the erosion is applied.
+    - `SE` (Matrix): The structuring element used for the erosion operation.
+
+    Returns:
+    - `Matrix`: The result of the erosion operation on the matrix.
+
+    Description:
+    This function performs an erosion operation on the `matrix` using the specified structuring element `SE`. The erosion process involves sliding the SE over the matrix and checking if all '1' pixels in the SE align with '1' pixels in the matrix neighborhood. If they do, the center pixel of the neighborhood is set to '1' in the output matrix; otherwise, it is set to '0'. The output matrix has the same size as the input matrix.
+
+    Example:
+    ```python
+    >>> matrix = [[1, 1, 0, 0],
+    ...           [1, 1, 0, 0],
+    ...           [0, 0, 1, 1],
+    ...           [0, 0, 1, 1]]
+    >>> SE = [[1, 1],
+    ...       [1, 1]]
+    >>> result = erosion(matrix, SE)
+    >>> result
+    [[0, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 1]]
+    """
     height = len(matrix)
     width = len(matrix[0])
     SE_w = len(SE[0])
@@ -500,17 +553,19 @@ def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
 
     for neighbers, center in _neighborhood_with_center(matrix,(SE_w,SE_h)):
 
-        overlap_found = False
+        fits = True
 
         # loop on each element of the strucure and the neighbers
         for row in range(SE_h):
             for col in range(SE_w):
-                if SE[row][col] and neighbers[row][col]:
-                    overlap_found = True
+                # For each position of the SE, check if all '1' pixels in the SE align with '1' pixels in the image.
+                # so if 1 and 0 will enter the if
+                if SE[row][col] and not neighbers[row][col]:
+                    fits = False
                     break
-            if overlap_found:
+            if not fits:
                 break
-        if overlap_found:
+        if fits:
             output_mat[center[0] - offset_h][center[1]- offset_w] = 1
 
     return output_mat

@@ -227,13 +227,13 @@ def _neighborhood_with_center(matrix: Matrix, kernel_dim: Tuple[int,int]) -> Gen
     k_center = DP.get_center(k_w,k_h)
 
     # going from 0 to the last place the kernel center can be located in so the filter is in the image
-    for row in range(0,height - k_h + k_center[0]):
-        for col in range(0,width - k_w + k_center[1]):
+    for row in range(0,height - k_h):
+        for col in range(0,width - k_w):
             # getting the values same size as the filter 
             neighbors_with_center = [r[col:col + k_w] for r in matrix[row:row + k_h]],(row+k_center[0],col + k_center[1])
             yield neighbors_with_center
 
-def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = 8) -> Matrix:
+def correlate(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = None) -> Matrix:
     """
     Perform convolution operation on a matrix using a given kernel.
 
@@ -262,8 +262,9 @@ def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int =
     [-15, -6, 15],
     [-13, -4, 13]]
     """
+    if bit_depth == None:
+        bit_depth = bit_depth_from_mat(matrix)
 
-    bit_depth = bit_depth_from_mat(matrix)
     max_value = 2 ** bit_depth - 1
     
     height = len(matrix)
@@ -279,31 +280,22 @@ def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int =
 
     if pad_with == None:
         # make smaller matrix
-        height = height - top - down
-        width = width - left - right
-        output_mat = [[pad_with for _ in range(width)] for _ in range(height)]
+        output_mat = [[pad_with for _ in range(width - left - right)] for _ in range(height - top - down)]
+
     elif isinstance(pad_with,int):
         # output will be same size as original in this case
         output_mat = [[pad_with for _ in range(width)] for _ in range(height)]
-    
 
-        # make bigger padded matrix 
-        pad_h = height + top + down
-        pad_w = width + left + right
-        pad_matrix = [[pad_with for _ in range(pad_w)] for _ in range(pad_h)]
-
-        # loop on the old matrix to copy the values with offset of kernel center
-        for r in range(height):
-            for c in range(width):
-                pad_matrix[r + top][c + left] = matrix[r][c]
-        
-        matrix = pad_matrix
+        matrix = pad(matrix,(k_w,k_h),pad_with)
+        # get the new dimentions to work on
+        height = len(matrix)
+        width = len(matrix[0])
     else:
         raise ValueError("padding must be None or integer")
 
     # going from 0 to the last place the kernel center can be located in so the filter is in the image
-    for row in range(0,height - down + 1 ):
-        for col in range(0,width - right + 1):
+    for row in range(0, height - top - down):
+        for col in range(0, width - left - right):
             # getting the values same size as the filter 
             neighborhood = [r[col:col + k_w] for r in matrix[row:row + k_h]]
             # for every row in neighborhood and kernal and for each element in both rows multiply elements then sum all
@@ -444,21 +436,131 @@ def adaptive_filter(matrix, kernel_dim:Tuple[int,int], pad_with:int = None) -> M
 
     return output_mat
 
+# -------------------- Edge Detection --------------------------
+
+def _rotate_90_clockwise(matrix: Matrix) -> Matrix:
+    if not matrix:
+        return []
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    # Transpose the matrix
+    transposed = [[matrix[j][i] for j in range(rows)] for i in range(cols)]
+    
+    # Reverse each row to get the clockwise rotation
+    clockwise_rotated = [list(reversed(row)) for row in transposed]
+    
+    return clockwise_rotated
+
+def _rotate_180_clockwise(matrix: Matrix) -> Matrix:
+    if not matrix:
+        return []
+
+    # Reverse each row and each column
+    return [row[::-1] for row in matrix[::-1]]
+
+
+def robert_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.robert_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
+
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
+
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
+
+def prewitt_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.prewitt_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
+
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
+
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
+
+def sobel_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
+            
+    h1 = Kernals.sobel_operator
+    h2 = _rotate_90_clockwise(Kernals.robert_operator)
+
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
+
+    width = len(f1[0])
+    height = len(f1)
+
+    output_mat = deepcopy(f1)
+
+    for r in range(height):
+        for c in range(width):
+            output_mat[r][c] = DP.custom_round(m.sqrt(f1[r][c]**2 + f2[r][c]**2))
+
+    return output_mat
+
 # -------------------- morphology --------------------------
 
-def dialtion(matrix: Matrix, SE: Matrix) -> Matrix:
+def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
     """
-    takes a binary image and a structure element and perform dialation
+    Perform dilation operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the dilation is applied.
+    - `SE` (Matrix): The structuring element used for the dilation operation.
+
+    Returns:
+    - `Matrix`: The result of the dilation operation on the matrix.
+
+    Description:
+    This function performs a dilation operation on the `matrix` using the specified structuring element `SE`. The dilation process involves sliding the SE over the matrix and checking if any '1' pixel in the SE aligns with a '1' pixel in the matrix neighborhood. If such an overlap is found, the center pixel of the neighborhood is set to '1' in the output matrix; otherwise, it remains '0'. The output matrix has the same size as the input matrix.
+
+    Example:
+    ```python
+    >>> matrix = [[1, 0, 0, 0],
+    ...           [0, 0, 0, 0],
+    ...           [0, 0, 0, 0],
+    ...           [0, 0, 0, 1]]
+    >>> SE = [[1, 1],
+    ...       [1, 1]]
+    >>> result = dilation(matrix, SE)
+    >>> result
+    [[1, 1, 0, 0],
+    [1, 1, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 1]]
     """
     height = len(matrix)
     width = len(matrix[0])
+
     SE_w = len(SE[0])
     SE_h = len(SE)
+    if SE_h%2 != 0 or SE_w%2 != 0:
+        SE = _rotate_180_clockwise(SE)
 
     # subtract the added offset to get the original matrix
     # we're sliding on the padded image, but we need the center in the original image
     offset_w,offset_h = DP.get_center(SE_w,SE_h)
-
+ 
     # output will be same size as original in this case
     output_mat = [[0 for _ in range(width)] for _ in range(height)]
 
@@ -466,28 +568,46 @@ def dialtion(matrix: Matrix, SE: Matrix) -> Matrix:
     matrix = pad(matrix,(SE_w,SE_h),pad_with=0)
 
     for neighbers, center in _neighborhood_with_center(matrix,(SE_w,SE_h)):
-
-        overlap_found = False
-
-        # loop on each element of the strucure and the neighbers
-        for row in range(SE_h):
-            for col in range(SE_w):
-                if SE[row][col] and neighbers[row][col]:
-                    overlap_found = True
-                    break
-            if overlap_found:
-                break
-        if overlap_found:
+        if any(SE[row][col] and neighbers[row][col] for row in range(SE_h) for col in range(SE_w)):
             output_mat[center[0] - offset_h][center[1]- offset_w] = 1
-
+    if SE_h%2 == 0 or SE_w%2 == 0:
+        return _rotate_180_clockwise(output_mat)
     return output_mat
 
 def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform erosion operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the erosion is applied.
+    - `SE` (Matrix): The structuring element used for the erosion operation.
+
+    Returns:
+    - `Matrix`: The result of the erosion operation on the matrix.
+
+    Description:
+    This function performs an erosion operation on the `matrix` using the specified structuring element `SE`. The erosion process involves sliding the SE over the matrix and checking if all '1' pixels in the SE align with '1' pixels in the matrix neighborhood. If they do, the center pixel of the neighborhood is set to '1' in the output matrix; otherwise, it is set to '0'. The output matrix has the same size as the input matrix.
+
+    Example:
+    ```python
+    >>> matrix = [[1, 1, 0, 0],
+    ...           [1, 1, 0, 0],
+    ...           [0, 0, 1, 1],
+    ...           [0, 0, 1, 1]]
+    >>> SE = [[1, 1],
+    ...       [1, 1]]
+    >>> result = erosion(matrix, SE)
+    >>> result
+    [[0, 0, 0, 0],
+    [0, 1, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 1]]
+    """
     height = len(matrix)
     width = len(matrix[0])
+    SE = _rotate_180_clockwise(SE)
     SE_w = len(SE[0])
     SE_h = len(SE)
-
     # subtract the added offset to get the original matrix
     # we're sliding on the padded image, but we need the center in the original image
     offset_w,offset_h = DP.get_center(SE_w,SE_h)
@@ -499,18 +619,168 @@ def erosion(matrix: Matrix, SE: Matrix) -> Matrix:
     matrix = pad(matrix,(SE_w,SE_h),pad_with=0)
 
     for neighbers, center in _neighborhood_with_center(matrix,(SE_w,SE_h)):
-
-        overlap_found = False
+        fits = True
 
         # loop on each element of the strucure and the neighbers
         for row in range(SE_h):
             for col in range(SE_w):
-                if SE[row][col] and neighbers[row][col]:
-                    overlap_found = True
+                # For each position of the SE, check if all '1' pixels in the SE align with '1' pixels in the image.
+                # so if 1 and 0 will enter the if
+                if SE[row][col] and not neighbers[row][col]:
+                    fits = False
                     break
-            if overlap_found:
+            if not fits:
                 break
-        if overlap_found:
+        if fits:
             output_mat[center[0] - offset_h][center[1]- offset_w] = 1
 
     return output_mat
+
+def opening(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform opening operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the opening operation is applied.
+    - `SE` (Matrix): The structuring element used for the opening operation.
+
+    Returns:
+    - `Matrix`: The result of the opening operation on the matrix.
+
+    Description:
+    This function performs an opening operation on the `matrix` using the specified structuring element `SE`. The opening process consists of an erosion followed by a dilation using the same structuring element. This operation is useful for removing small objects from the foreground (usually taken as the bright pixels) of an image, placing them in the background, while preserving the shape and size of larger objects in the image.
+
+    Example:
+    >>> matrix = [[0,0,0,0,0,0], 
+    ...          [0,1,1,1,1,0], 
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,1,1,0]]
+    >>> SE = [[1,1]
+             ,[0,1]]
+    >>> result = opening(matrix,SE)
+    >>> result
+        [[0, 0, 0, 0, 0, 0]
+        ,[0, 0, 0, 0, 0, 0]
+        ,[0, 0, 1, 0, 1, 0]
+        ,[0, 0, 1, 1, 1, 1]
+        ,[0, 0, 1, 1, 0, 0]]
+    """
+    eroded = erosion(matrix, SE)
+    result = dilation(eroded, SE)
+    return result
+
+def closing(matrix: Matrix, SE: Matrix) -> Matrix:
+    """
+    Perform closing operation on a matrix using a given structuring element (SE).
+
+    Parameters:
+    - `matrix` (Matrix): The original binary matrix on which the closing operation is applied.
+    - `SE` (Matrix): The structuring element used for the closing operation.
+
+    Returns:
+    - `Matrix`: The result of the closing operation on the matrix.
+
+    Description:
+    This function performs a closing operation on the `matrix` using the specified structuring element `SE`. The closing process consists of a dilation followed by an erosion using the same structuring element. This operation is useful for closing small holes in the foreground, bridging small gaps, and generally smoothing the outline of objects while keeping their sizes and shapes approximately the same.
+
+    Example:
+    >>> matrix = [[0,0,0,0,0,0], 
+    ...          [0,1,1,1,1,0], 
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,0,1,0],
+    ...          [0,1,1,1,1,0]]
+    >>> SE = [[1,1]
+             ,[0,1]]
+    >>> result = closing(matrix,SE)
+    >>> result
+        [[0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0], 
+        [0, 0, 1, 1, 1, 0], 
+        [0, 0, 1, 1, 1, 1], 
+        [0, 0, 1, 1, 1, 1]]
+    """
+    dilated = dilation(matrix, SE)
+    result = erosion(dilated, SE)
+    return result
+
+def internal_extraction(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    eroded_matrix = erosion(matrix, SE)
+
+    # Subtract the eroded image from the original image to get the external boundary
+    result_matrix = [[DP.clip(matrix[i][j] - eroded_matrix[i][j],0,1) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def external_extraction(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    dilated_matrix = dilation(matrix, SE)
+    
+    # Subtract the original image from the dilated image to get the external boundary
+    result_matrix = [[DP.clip(dilated_matrix[i][j] - matrix[i][j],0,1) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def morphology_gradient(matrix: Matrix, SE: Matrix) -> Matrix:
+
+    dilated_matrix = dilation(matrix, SE)
+
+    eroded_matrix = erosion(matrix, SE)
+    
+    result_matrix = [[abs(dilated_matrix[i][j] - eroded_matrix[i][j]) for j in range(len(matrix[0]))] for i in range(len(matrix))]
+    
+    return result_matrix
+
+def hole_filling(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itiration:int = 100) -> Matrix:
+
+    X_prev = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    X_prev[x_0_indx[0]][x_0_indx[1]] = 1
+    complement_A = DP.complement(matrix,1)
+
+    for _ in range(max_itiration):
+        # Compute X_k = (X_{k-1} ⊕ B) ∩ A^c
+        dilated_X_prev  = dilation(X_prev, SE)
+        X_k = intersection(dilated_X_prev, complement_A)
+
+        # Check for convergence
+        if X_k == X_prev:
+            break
+
+        # Update X_prev for next iteration
+        X_prev = X_k
+
+    # Combine filled hole with original foreground
+    result = union(X_k, matrix)
+
+    return result
+
+def hole_filling_X_gen(matrix: Matrix, SE: Matrix, x_0_indx: Tuple[int,int],max_itiration:int = 10) -> Generator[Matrix,None,None]:
+
+    X_prev = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    X_prev[x_0_indx[0]][x_0_indx[1]] = 1
+    complement_A = DP.complement(matrix,1)
+    yield X_prev
+
+    for _ in range(max_itiration):
+        # Compute X_k = (X_{k-1} ⊕ B) ∩ A^c
+        dilated_X_prev  = dilation(X_prev, SE)
+        X_k = intersection(dilated_X_prev, complement_A)
+
+        # Check for convergence
+        if X_k == X_prev:
+            yield X_k
+            break
+
+        # Update X_prev for next iteration
+        X_prev = X_k
+        yield X_k
+
+def hit_or_miss(matrix: Matrix, SE1: Matrix, SE2: Matrix) -> Matrix:
+
+    complement_A = DP.complement(matrix,1)
+
+    A_erosion = erosion(matrix,SE1)
+    A_c_dilation = erosion(complement_A,SE2)
+    result = intersection(A_erosion,A_c_dilation)
+    return result

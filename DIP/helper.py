@@ -191,6 +191,16 @@ def mat_max(mat:Matrix) -> int:
 
     return max(max(row) for row in mat)
 
+def intersection(matrix1, matrix2):
+    # Perform set intersection
+    result = [[min(matrix1[i][j], matrix2[i][j]) for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
+    return result
+
+def union(matrix1, matrix2):
+    # Perform set union
+    result = [[max(matrix1[i][j], matrix2[i][j]) for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
+    return result
+
 def bit_depth_from_mat(mat:Matrix)->int:
     return m.ceil(m.log2(mat_max(mat) + 1))
 
@@ -230,20 +240,4 @@ def make_question(original:Matrix, result:Matrix):
             wrong = True
             os.system('cls' if os.name == 'nt' else 'clear')
 
-def plot_morphology(images, titles):
-    import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, len(images), figsize=(15, 5))
-    for ax, img, title in zip(axes, images, titles):
-        ax.matshow(img, cmap='gray_r')
-        ax.set_title(title)
-        ax.axis('off')
-
-        # Add border around each element
-        num_rows, num_cols = len(img),len(img[0])
-        for i in range(num_rows):
-            for j in range(num_cols):
-                rect = plt.Rectangle((j-0.5, i-0.5), 1, 1, fill=False, edgecolor='black', linewidth=1)
-                ax.add_patch(rect)
-
-    plt.show()
 

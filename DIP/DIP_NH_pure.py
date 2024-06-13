@@ -227,13 +227,13 @@ def _neighborhood_with_center(matrix: Matrix, kernel_dim: Tuple[int,int]) -> Gen
     k_center = DP.get_center(k_w,k_h)
 
     # going from 0 to the last place the kernel center can be located in so the filter is in the image
-    for row in range(0,height - k_h + k_center[0]):
-        for col in range(0,width - k_w + k_center[1]):
+    for row in range(0,height - k_h):
+        for col in range(0,width - k_w):
             # getting the values same size as the filter 
             neighbors_with_center = [r[col:col + k_w] for r in matrix[row:row + k_h]],(row+k_center[0],col + k_center[1])
             yield neighbors_with_center
 
-def convolute(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = None) -> Matrix:
+def correlate(matrix: Matrix, kernel: Matrix,pad_with:int = None,bit_depth:int = None) -> Matrix:
     """
     Perform convolution operation on a matrix using a given kernel.
 
@@ -458,17 +458,16 @@ def _rotate_180_clockwise(matrix: Matrix) -> Matrix:
         return []
 
     # Reverse each row and each column
-    rotated = [list(reversed(row)) for row in list(reversed(matrix))]
-    
-    return rotated
+    return [row[::-1] for row in matrix[::-1]]
+
 
 def robert_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) -> Matrix:
             
     h1 = Kernals.robert_operator
     h2 = _rotate_90_clockwise(Kernals.robert_operator)
 
-    f1 = convolute(matrix,h1, pad_with, bit_depth)
-    f2 = convolute(matrix,h2, pad_with, bit_depth)
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
 
     width = len(f1[0])
     height = len(f1)
@@ -486,8 +485,8 @@ def prewitt_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None
     h1 = Kernals.prewitt_operator
     h2 = _rotate_90_clockwise(Kernals.robert_operator)
 
-    f1 = convolute(matrix,h1, pad_with, bit_depth)
-    f2 = convolute(matrix,h2, pad_with, bit_depth)
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
 
     width = len(f1[0])
     height = len(f1)
@@ -505,8 +504,8 @@ def sobel_operator(matrix: Matrix, bit_depth: int = None, pad_with: int = None) 
     h1 = Kernals.sobel_operator
     h2 = _rotate_90_clockwise(Kernals.robert_operator)
 
-    f1 = convolute(matrix,h1, pad_with, bit_depth)
-    f2 = convolute(matrix,h2, pad_with, bit_depth)
+    f1 = correlate(matrix,h1, pad_with, bit_depth)
+    f2 = correlate(matrix,h2, pad_with, bit_depth)
 
     width = len(f1[0])
     height = len(f1)
@@ -552,14 +551,16 @@ def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
     """
     height = len(matrix)
     width = len(matrix[0])
-    SE = _rotate_180_clockwise(SE)
+
     SE_w = len(SE[0])
     SE_h = len(SE)
+    if SE_h%2 != 0 or SE_w%2 != 0:
+        SE = _rotate_180_clockwise(SE)
 
     # subtract the added offset to get the original matrix
     # we're sliding on the padded image, but we need the center in the original image
     offset_w,offset_h = DP.get_center(SE_w,SE_h)
-
+ 
     # output will be same size as original in this case
     output_mat = [[0 for _ in range(width)] for _ in range(height)]
 
@@ -567,20 +568,10 @@ def dilation(matrix: Matrix, SE: Matrix) -> Matrix:
     matrix = pad(matrix,(SE_w,SE_h),pad_with=0)
 
     for neighbers, center in _neighborhood_with_center(matrix,(SE_w,SE_h)):
-
-        overlap_found = False
-
-        # loop on each element of the strucure and the neighbers
-        for row in range(SE_h):
-            for col in range(SE_w):
-                if SE[row][col] and neighbers[row][col]:
-                    overlap_found = True
-                    break
-            if overlap_found:
-                break
-        if overlap_found:
+        if any(SE[row][col] and neighbers[row][col] for row in range(SE_h) for col in range(SE_w)):
             output_mat[center[0] - offset_h][center[1]- offset_w] = 1
-
+    if SE_h%2 == 0 or SE_w%2 == 0:
+        return _rotate_180_clockwise(output_mat)
     return output_mat
 
 def erosion(matrix: Matrix, SE: Matrix) -> Matrix:

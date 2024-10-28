@@ -85,7 +85,7 @@ This project provides tools for solving Digital Image Processing (DIP) problems,
    ```
 
 ### Documentation
-For full documentation, see [docs.md](docs/documentaion.md).
+For full documentation, see [docs](https://abdo-eid.github.io/DIP_solver/site/).
 
 ## The Story
 

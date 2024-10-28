@@ -16,7 +16,6 @@ theme:
         - navigation.instant.prefetch
         - navigation.instant.progress
         - navigation.prune
-        - navigation.sections
         - search.highlight
         - search.share
         - search.suggest
@@ -65,6 +64,9 @@ markdown_extensions:
                   case: lower
     - pymdownx.tasklist:
           custom_checkbox: true
+
+repo_url: https://github.com/Abdo-Eid/DIP_solver
+repo_name: DIP_solver
 
 nav:
     - Home: "index.md"

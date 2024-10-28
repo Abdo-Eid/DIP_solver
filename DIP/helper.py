@@ -148,7 +148,7 @@ def get_center(width: int = 3, height: int = 3, return_matrix: bool = False) -> 
 
     Returns:
         If `return_matrix` is True returns a visual representation with "X" at center.
-        If False returns a tuple containing the row and column indices of the center coordinate.
+        If False returns (x,y) indices of the center coordinate.
 
     Examples:
         >>> get_center(5, 5)
@@ -520,3 +520,152 @@ def _rotate_180(matrix: Matrix) -> Matrix:
 
     # Reverse each row and each column
     return [row[::-1] for row in matrix[::-1]]
+
+def make_realistic_matrix(
+    width: int = 9, 
+    height: int = 9, 
+    bit_depth: int = 1, 
+    elements_num: int = 2,
+    background_intensity_factor: float = 0.2,
+    foreground_intensity_factor: float = 0.5,
+    size_factor: float = 0.4  # Controls the size of objects (0.0 to 1.0)
+) -> List[List[int]]:
+    """
+    Generate a realistic matrix with background and foreground objects.
+    
+    Parameters:
+        width: Width of the matrix
+        height: Height of the matrix
+        bit_depth: Bit depth for intensity values
+        elements_num: Number of foreground objects to generate
+        background_intensity_factor: Max background intensity as fraction of max value
+        foreground_intensity_factor: Min foreground intensity as fraction of max value
+        size_factor: Controls size of objects (0.0 to 1.0)
+    
+    Returns:
+        Matrix with realistic intensity distribution
+    Examples:
+    >>> helper.make_realistic_matrix()
+    ... [ 0 0 0 0 0 0 0 0 0 ]
+    ... [ 0 0 0 0 0 0 0 0 0 ]
+    ... [ 0 0 0 0 0 0 0 0 0 ]
+    ... [ 0 0 0 0 0 1 1 1 0 ]
+    ... [ 0 0 0 0 0 1 1 1 0 ]
+    ... [ 0 0 0 0 0 1 1 1 0 ]
+    ... [ 0 0 0 1 1 1 1 1 0 ]
+    ... [ 0 0 0 1 1 1 1 0 0 ]
+    ... [ 0 0 0 1 1 1 1 0 0 ]
+    """
+    from DIP.neighborhood_operations import Kernels, apply_filter
+    
+    # Input validation
+    if width < 1 or height < 1:
+        raise ValueError("Width and height must be positive")
+    if bit_depth < 1 or bit_depth > 32:
+        raise ValueError("Bit depth must be between 1 and 32")
+    if elements_num < 0:
+        raise ValueError("Number of elements must be non-negative")
+    if not 0.0 <= size_factor <= 1.0:
+        raise ValueError("Size factor must be between 0.0 and 1.0")
+        
+    max_value = 2**bit_depth - 1
+    
+    # Define intensity ranges
+    background_max = int(max_value * background_intensity_factor)
+    foreground_min = int(max_value * foreground_intensity_factor)
+    
+    # Create background
+    matrix = [[randint(0, background_max) for _ in range(width + 2)] 
+             for _ in range(height + 2)]
+    
+    # Generate foreground objects
+    for _ in range(elements_num):
+        height, width = len(matrix), len(matrix[0])
+        
+        # Calculate object size based on size_factor
+        obj_size = max(1, int(min(width, height) * size_factor))
+        obj_w = randint(int(obj_size * .75),obj_size)
+        obj_h = randint(int(obj_size * .75),obj_size)
+        
+        # Generate random position ensuring object fits within matrix
+        obj_x = randint(0, height - obj_size)
+        obj_y = randint(0, width - obj_size)
+        
+        # Add square object to matrix
+        for i in range(obj_x, obj_x + obj_h):
+            for j in range(obj_y, obj_y + obj_w):
+                if i < height and j < width:  # Boundary check
+                    if bit_depth == 1:
+                        matrix[i][j] = 1
+                    else:
+                        matrix[i][j] = randint(foreground_min, max_value)
+    
+    matrix = apply_filter(matrix, Kernels.weighted_smoothing_filter, bit_depth=bit_depth)
+    
+    return matrix
+
+def max_dimensions(matrices: List[Matrix]) -> Tuple[int, int]:
+    """
+    Calculates the maximum width and height from a list of 2D matrices.
+
+    Parameters:
+        matrices (List[Matrix]]): A list of 2D matrices represented as lists of lists.
+
+    Returns:
+        Tuple[int, int]: A tuple containing the maximum width and height:
+                        (max_width, max_height), where
+                        - max_width is the maximum number of columns in any matrix,
+                        - max_height is the maximum number of rows in any matrix.
+
+    Examples:
+    >>> matrices = [
+    ...     [[1, 0], [0, 1]],
+    ...     [[1, 1, 1], [0, 0, 0]],
+    ...     [[1]]
+    ... ]
+    >>> max_dimensions(matrices)
+    (3, 2)
+    """
+    max_width = max(len(matrix[0]) for matrix in matrices if matrix)
+    max_height = max(len(matrix) for matrix in matrices if matrix)
+    return max_width, max_height
+
+from typing import List, Tuple
+
+def trim(matrix: Matrix, trim_amount: Tuple[int, int]) -> Matrix:
+    """
+    Trims a specified number of rows and columns from the edges of a matrix.
+
+    Parameters:
+        matrix (Matrix): The original 2D matrix to be trimmed.
+        trim_amount (Tuple[int, int]): A tuple (width, height) where:
+                                        - width is the number of columns to remove from each side,
+                                        - height is the number of rows to remove from each side.
+
+    Returns:
+        Matrix: The trimmed matrix with dimensions reduced by the specified width and height.
+                        If the trim amount is greater than half the matrix dimensions, an empty matrix is returned.
+
+    Example:
+    >>> matrix = [
+    ...     [1, 2, 3, 4],
+    ...     [5, 6, 7, 8],
+    ...     [9, 10, 11, 12],
+    ...     [13, 14, 15, 16]
+    ... ]
+    >>> trim(matrix, (1, 1))
+    [[6, 7], [10, 11]]
+    """
+    trim_width, trim_height = trim_amount
+    num_rows = len(matrix)
+    num_cols = len(matrix[0]) if num_rows > 0 else 0
+
+    # Ensure trimming does not exceed half the matrix size
+    if trim_width * 2 >= num_cols or trim_height * 2 >= num_rows:
+        return []  # Return empty matrix if trimming exceeds matrix dimensions
+
+    # Trim rows and columns from each side
+    trimmed_matrix = matrix[trim_height:num_rows - trim_height]
+    trimmed_matrix = [row[trim_width:num_cols - trim_width] for row in trimmed_matrix]
+
+    return trimmed_matrix

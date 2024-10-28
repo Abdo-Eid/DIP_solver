@@ -1,32 +1,67 @@
 from DIP import *
-
+from DIP import plugins
+from DIP.neighborhood_operations import pad
 # --------------------------------------------------------------------------------
 
 bit_dipth = 4
 
 
-im = [[0,0,0,0,0,0,0,0],
-      [0,0,0,1,1,0,0,0],
-      [0,0,1,1,1,1,0,0],
-      [0,1,1,1,1,1,1,0],
-      [0,1,1,1,1,1,1,0],
-      [0,0,1,1,1,1,0,0],
-      [0,0,0,1,1,0,0,0],
-      [0,0,0,0,0,0,0,0]]
 
-se1 = [[0,1,0],
-      [1,1,0],
-      [0,1,0]]
+# B1 = [
+#     [1,'x','x'],
+#     [1, 0, 'x'],
+#     [1,'x','x']
+# ]
 
-se2 = [[1,0,0],
-      [0,0,0],
-      [1,0,0]]
+# B2 = helper.rotate_90(B1)
+# B3 = helper.rotate_90(B2)
+# B4 = helper.rotate_90(B3)
 
-result = hit_or_miss(im, se1, se2)
+# im = [
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+#     [0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+#     [0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0],
+#     [0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0],
+#     [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+# ]
+# c = morphology.convex_hull_gen(im,[B1,B2,B3,B4])
+# plugins.animate_convex_hull(c,show_prev_in_gray=True,interval=500)
+
+
+# im = helper.make_realistic_matrix()
+
+# helper.display_matrices([im])
+
+
+# im = [[0,0,0,0,0,0,0,0],
+#       [0,0,0,1,1,0,0,0],
+#       [0,0,1,1,1,1,0,0],
+#       [0,1,1,1,1,1,1,0],
+#       [0,1,1,1,1,1,1,0],
+#       [0,0,1,1,1,1,0,0],
+#       [0,0,0,1,1,0,0,0],
+#       [0,0,0,0,0,0,0,0]]
+
+# se1 = [[0,1,0],
+#       [1,1,0],
+#       [0,1,0]]
+
+# se2 = [[1,0,0],
+#       [0,0,0],
+#       [1,0,0]]
+
+# result = hit_or_miss(im, se1, se2)
 
 # plot_morphology([im, se1, se2, result], ['Image', 'SE1', 'SE2', 'Hit or Miss'],
 #                 draw_border=True, show_numbers=True, show_axis=True, figure_scale=0.5)
-display_matrices([im, result])
+# display_matrices([im, result])
 
 # t = [1,0,5,0,6,6,2,5]
 # equalized_matrix = histogram_matching(matrix,target_histogram=t, show=True)

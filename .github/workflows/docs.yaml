@@ -1,0 +1,32 @@
+name: Build and Deploy Docs
+
+on:
+    pull_request:
+        branches:
+            - docs
+        types:
+            - synchronize # Trigger when the PR is updated with new commits
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: "3.12"
+
+            - name: Install Dependencies
+              run: |
+                  pip install -r requirements.txt
+
+            - name: Build Docs
+              run: mkdocs build --clean
+
+            - name: Deploy Docs
+              run: |
+                  mkdocs gh-deploy --force --remote-branch docs --message "Deploying documentation"

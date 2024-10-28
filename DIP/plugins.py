@@ -2,6 +2,7 @@
 # pip install matplotlib
 from .helper import Matrix,List
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 def plot_morphology(images: List[Matrix], titles: List[str] = None, draw_border=True, show_numbers=False, show_axis=False, figure_scale=0.7):
     """
@@ -71,3 +72,74 @@ def plot_morphology(images: List[Matrix], titles: List[str] = None, draw_border=
     
     plt.tight_layout()
     plt.show()
+
+def animate_convex_hull(convex_hull_gen, interval=1000, user_control=False, show_prev_in_gray=True):
+    """
+    Animate the convex hull generation process, optionally displaying the previous step in gray.
+
+    Parameters:
+        convex_hull_gen: A generator function that yields tuples of the form 
+                         (structure_num, iteration_num, matrix). The `matrix` should be a 2D list
+        interval (int): Delay between frames in milliseconds for automatic mode. Defaults to 1000 ms.
+        user_control (bool): If True, allows manual stepping through frames using key presses instead 
+                             of automatic playback. Press the right arrow key to advance to the next frame.
+        show_prev_in_gray (bool): If True, displays the previous step in gray behind the current step 
+                                  for better visual comparison. Defaults to False.
+
+    Example:
+        >>> gen = convex_hull_gen(input_matrix, structures)
+        >>> animate_convex_hull(gen, interval=500, user_control=True)
+    """
+    fig, ax = plt.subplots()
+    
+    # Initialize with the first matrix from the generator
+    structure_num, iteration_num, matrix = next(convex_hull_gen)
+    prev_matrix = None  # Will hold the previous matrix for displaying in gray
+
+    # Display the current matrix in color and add text for metadata
+    im_color = ax.imshow(matrix, cmap='gray_r')  # Use a color map for the current step
+    
+    # Optional: Set up gray image for the previous step
+    im_gray = ax.imshow(matrix, cmap='gray_r', alpha=0.5) if show_prev_in_gray else None
+    if im_gray:
+        im_gray.set_visible(False)  # Hide initially since there's no previous frame
+    
+    text = ax.text(0.02, 0.95, f'Structure: {structure_num}, Iteration: {iteration_num}', 
+                   transform=ax.transAxes, color="red", fontsize=12)
+
+    # Update function to switch frames
+    def update(_):
+        nonlocal prev_matrix  # Access the previous matrix
+
+        try:
+            # Get the next frame data
+            structure_num, iteration_num, matrix = next(convex_hull_gen)
+            
+            # Update previous step in gray if enabled and exists
+            if show_prev_in_gray and prev_matrix is not None:
+                im_gray.set_array(prev_matrix)
+                if iteration_num != 0:
+                    im_gray.set_visible(True)
+                else:
+                    im_gray.set_visible(False)
+            prev_matrix = matrix  # Update the previous matrix to the current one
+
+            # Update the color image and text for the current step
+            im_color.set_array(matrix)
+            text.set_text(f'Structure: {structure_num}, Iteration: {iteration_num}')
+        except StopIteration:
+            pass
+        return [im_gray, im_color, text] if show_prev_in_gray else [im_color, text]
+
+    # Manual stepping function with key press, if user_control is True
+    def on_key(event):
+        if event.key == 'right':
+            update(None)
+            plt.draw()
+
+    if user_control:
+        fig.canvas.mpl_connect('key_press_event', on_key)
+        plt.show()
+    else:
+        ani = animation.FuncAnimation(fig, update, frames=None, cache_frame_data=False, interval=interval, blit=False, repeat=False)
+        plt.show()

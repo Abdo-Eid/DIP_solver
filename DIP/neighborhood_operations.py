@@ -1,5 +1,5 @@
 from copy import deepcopy
-from typing import Generator, Optional,Tuple
+from typing import Generator, List, Optional,Tuple
 import math as m
 from DIP.helper import Matrix, get_center, rotate_90, slice_matrix, bit_depth_from_mat, clip, flatten_matrix
 import DIP.operations as DP
@@ -61,6 +61,13 @@ class Kernels:
         [0, 1, 0]
     ]  # Second derivative operator
 
+    # 3*3 gaussian kernel with sigma = 2
+    gaussian_kernel = [
+        [0.1019, 0.1154, 0.1019],
+        [0.1154, 0.1308, 0.1154],
+        [0.1019, 0.1154, 0.1019]
+        ]
+
 def pad(matrix: Matrix, kernel_shape: Tuple[int,int],pad_with: int = 0) -> Matrix:
     """
     Pads a matrix with a specified value.
@@ -94,7 +101,6 @@ def pad(matrix: Matrix, kernel_shape: Tuple[int,int],pad_with: int = 0) -> Matri
     if not isinstance(pad_with, int):
         raise ValueError("pad_with must be an integer")
     width = len(matrix[0])
-    height = len(matrix)
 
     k_w, k_h = kernel_shape
     # get the how much center is away from each corner of the kernel
@@ -257,7 +263,7 @@ def correlate(matrix: Matrix, kernel: Matrix, pad_with:Optional[int] = None, bit
     >>> kernel = [[1, 0, -1],
     ...           [1, 0, -1],
     ...           [1, 0, -1]]
-    >>> result = convolute(matrix, kernel,pad_with=0)
+    >>> result = correlate(matrix, kernel,pad_with=0)
     >>> result
     [[-7, -4, 7],
     [-15, -6, 15],
@@ -441,6 +447,83 @@ def adaptive_filter(matrix, kernel_dim:Tuple[int,int], pad_with:Optional[int] = 
         output_mat[center[0]][center[1]] = DP.normal_round(mu + sigma * (current_pixel - mu)/(sigma + sigma_g))
 
     return output_mat
+
+def apply_filter(matrix: Matrix, kernel: Matrix, pad_with:Optional[int] = None, bit_depth:Optional[int] = None) -> Matrix:
+    """wrapper on correlate function that round the output"""
+    
+    return [[DP.normal_round(v) for v in row] for row in correlate(matrix, kernel, pad_with, bit_depth)]
+
+def create_gaussian_kernel(size: int, sigma: float) -> List[List[float]]:
+    """
+    Create a 2D Gaussian kernel (filter) for image smoothing.
+    
+    The Gaussian kernel is created using the 2D Gaussian function:
+    G(x,y) = (1/(2π*σ²)) * e^(-(x² + y²)/(2σ²))
+    
+    Where:
+    - x,y are distances from the kernel center
+    - σ (sigma) controls the spread of the Gaussian
+    - Size determines the kernel dimensions (must be odd)
+    
+    Parameters:
+        size: Kernel size (must be odd). Larger size = more pixels involved in smoothing
+        sigma: Standard deviation of Gaussian. Larger sigma = more blurring
+    
+    Returns:
+        2D list representing the Gaussian kernel, normalized to sum to 1
+        
+    Raises:
+        ValueError: If size is even or sigma is not positive
+    """
+    from math import exp, pi
+
+    # Validate inputs
+    if size % 2 == 0:
+        raise ValueError("Kernel size must be odd to have a clear center point")
+    if sigma <= 0:
+        raise ValueError("Sigma must be positive")
+    
+    # Calculate center point of kernel
+    center = size // 2
+    
+    # Calculate normalization factor: 1/(2π*σ²)
+    # This is part of the 2D Gaussian formula
+    norm_factor = 1 / (2 * pi * sigma * sigma)
+    
+    # Initialize kernel and running sum for normalization
+    kernel = []
+    kernel_sum = 0.0
+    
+    # Generate kernel values
+    for i in range(size):
+        row = []
+        for j in range(size):
+            # Calculate distance from center (x,y coordinates relative to center)
+            x = i - center
+            y = j - center
+            
+            # Calculate squared distance from center
+            # This is (x² + y²) in the formula
+            squared_dist = x*x + y*y
+            
+            # Calculate exponent: -(x² + y²)/(2σ²)
+            exponent = -squared_dist / (2 * sigma * sigma)
+            
+            # Calculate Gaussian value using the complete formula
+            value = norm_factor * exp(exponent)
+            
+            # Add to running sum for later normalization
+            kernel_sum += value
+            row.append(value)
+        kernel.append(row)
+    
+    # Normalize kernel so all values sum to 1
+    # This ensures image brightness is preserved after filtering
+    for i in range(size):
+        for j in range(size):
+            kernel[i][j] = round(kernel[i][j] / kernel_sum,4)
+            
+    return kernel
 
 # -------------------- Edge Detection --------------------------
 

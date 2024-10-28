@@ -30,7 +30,7 @@ This project provides tools for solving Digital Image Processing (DIP) problems,
    ```
 
 4. **Install the Package**
-   - f you will contribute install the package in your environment in editable mode:
+   - if you will contribute install the package in your environment in editable mode:
    ```bash
    pip install -e .
    ```
@@ -85,7 +85,7 @@ This project provides tools for solving Digital Image Processing (DIP) problems,
    ```
 
 ### Documentation
-For full documentation, see [docs.md](docs/documentaion.md).
+For full documentation, see [docs](https://abdo-eid.github.io/DIP_solver/site/).
 
 ## The Story
 
@@ -99,6 +99,8 @@ Then the idea grew: why not make a TUI (Text-based User Interface) and quiz app 
 - Using Pydoc and focusing on self-explanatory code
 - Creating guides on using code effectively
 - Gaining deeper knowledge of Python
+- Using mkdocs to auto-generate documentaion with docstring
+- using github actions to auto build the documentaion on new releases
 
 ## What's Next
 

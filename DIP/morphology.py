@@ -1,4 +1,6 @@
-from typing import Generator,Tuple
+from copy import deepcopy
+from typing import Generator, List, Optional,Tuple
+from DIP import plugins
 from DIP.helper import Matrix, slice_matrix, filter_by_kernel, structuring_element_to_set, pixel_coordinates, intersection, union
 import DIP.neighborhood_operations as DN
 import DIP.operations as DO
@@ -416,43 +418,160 @@ def hole_filling_X_gen(matrix: Matrix, se: Matrix, x_0_indx: Tuple[int,int],max_
         X_prev = X_k
         yield X_k
 
-def hit_or_miss(matrix: Matrix, se1: Matrix, se2: Matrix) -> Matrix:
+def hit_or_miss(matrix: Matrix, se1: Matrix, se2: Optional[Matrix] = None) -> Matrix:
     """
-    Performs hit-or-miss transform (HMT) to detect specific patterns or templates 
-    in binary images using two complementary structuring elements.
+    Performs hit-or-miss transform (HMT) to detect specific patterns or templates
+    in binary images using two complementary structuring elements. If only one
+    structuring element is provided, it searches for exact matches while handling
+    don't care elements ('x').
 
     Parameters:
-        `matrix` (Matrix): binary image containing holes to be filled.
+        `matrix` (Matrix): Binary image containing holes to be filled.
         `se1` (Matrix): First structuring element that matches foreground pixels (1s).
-        `se2` (Matrix): Second structuring element that matches background pixels (0s).
+        `se2` (Matrix, optional): Second structuring element that matches background pixels (0s).
 
     Returns:
-        Matrix: Binary image where 1s indicate locations where the pattern was found. Matches occur where both structuring elements align with their respective foreground and background requirements.
-
-    Notes:
-        1. The hit-or-miss transform is particularly useful for:
-            - Template matching in binary images
-            - Corner detection
-            - Endpoint detection
-            - Specific shape detection
+        Matrix: Binary image where 1s indicate locations where the pattern was found.
 
     Examples:
-        >>> # Examples: Detecting upper-left corners
         >>> img = [[1, 1, 0],
         ...        [1, 1, 0],
         ...        [0, 0, 0]]
-        >>> # SE1 for required foreground pixels
-        >>> se1 = [[1, 1],
-        ...        [1, 0]]
-        >>> # SE2 for required background pixels
-        >>> se2 = [[0, 0],
-        ...        [0, 1]]
-        >>> result = hit_or_miss(img, se1, se2)
-        >>> # Result will mark the upper-left corner location
+        >>> se1 = [[1, 'x'],
+        ...        ['x', 1]]
+        >>> # Result will indicate the location of the pattern with 'x' as a don't care
+        >>> result = hit_or_miss(img, se1)
     """
-    complement_A = DO.complement(matrix,1)
+    
+    if se2 is None:
+        # If only one structuring element is provided, look for exact matches
+        k_h, k_w = len(se1), len(se1[0])
+        result = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+        
+        # getting kernel center
+        x_offset, y_offset = k_h//2, k_w//2
 
-    A_erosion = erosion(matrix,se1)
-    A_c_dilation = erosion(complement_A,se2)
-    result = intersection(A_erosion,A_c_dilation)
-    return result
+        for i in range(len(matrix) - k_h):
+            for j in range(len(matrix[0]) - k_w):
+                match_found = True
+                for r in range(k_h):
+                    for c in range(k_w):
+                        if se1[r][c] != 'x' and se1[r][c] != matrix[i + r][j + c]:
+                            match_found = False
+                            break
+                    if not match_found:
+                        break
+                if match_found:
+                    result[i + x_offset][j + y_offset] = 1
+        return result
+    else:
+        # If both structuring elements are provided, proceed with the original logic
+        complement_A = DO.complement(matrix, bit_depth=1)
+
+        A_erosion = erosion(matrix, se1)
+        A_c_dilation = erosion(complement_A, se2)
+        result = intersection(A_erosion, A_c_dilation)
+        return result
+
+# ===================== computer vision =====================
+
+def convex_hull(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 100):
+    """
+    Computes the convex hull of a binary image using morphological operations.
+    The function applies hit-or-miss transformations with specified structuring elements,
+    iteratively refining the image until convergence or the maximum number of iterations is reached.
+    The output is a binary matrix representing the convex hull.
+
+    Parameters:
+        matrix (Matrix): A binary matrix (2D list) representing the input image where non-zero values 
+                         indicate foreground pixels.
+        list_of_structures (List[Matrix]): A list of structuring elements (binary matrices) used for 
+                                             morphological operations. Each structuring element defines 
+                                             the shape used in the hit-or-miss transformation.
+        max_itiration (int, optional): The maximum number of iterations to perform. Default is 100. 
+                                        If convergence occurs before reaching this limit, the process will stop.
+
+    Returns:
+        Matrix: A binary matrix representing the convex hull of the input image.
+
+    Raises:
+        ValueError: If `matrix` is not a valid binary matrix or if `list_of_structures` is empty.
+
+    Examples:
+        >>> input_matrix = [[0, 0, 1], [0, 1, 1], [0, 0, 0]]
+        >>> structures = [[[1]], [[1, 1]]]
+        >>> result = convex_hull(input_matrix, structures)
+    """
+    from DIP.neighborhood_operations import pad
+    from DIP.helper import max_dimensions, trim
+    max_dimension = max_dimensions(list_of_structures)
+    matrix = pad(matrix, max_dimension)
+
+    result = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    for structure in list_of_structures:
+        X_prev = deepcopy(matrix)
+
+        for _ in range(max_itiration):
+            X_k = hit_or_miss(X_prev,structure)
+            X_k = union(X_k,X_prev)
+            # Check for convergence
+            if X_k == X_prev:
+                break
+
+            # Update X_prev for next iteration
+            X_prev = X_k
+
+        result = union(result, X_k)
+
+    return trim(result, (max_dimension[0]//2,max_dimension[1]//2))
+
+def convex_hull_gen(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 10):
+    """
+    Generates intermediate results while computing the convex hull of a binary image using morphological operations.
+
+    Parameters:
+        matrix (Matrix): A binary matrix (2D list) representing the input image where non-zero values 
+                         indicate foreground pixels.
+        list_of_structures (List[Matrix]): A list of structuring elements (binary matrices) used for 
+                                             morphological operations. Each structuring element defines 
+                                             the shape used in the hit-or-miss transformation.
+        max_itiration (int, optional): The maximum number of iterations to perform for each structuring 
+                                        element. Default is 10. The process stops if convergence occurs 
+                                        before reaching this limit.
+
+    Yields:
+        Tuple[int, int, Matrix]: A tuple containing:
+            - The index of the structuring element being processed.
+            - The current iteration number.
+            - The current state of the binary matrix after applying transformations.
+
+    Examples:
+        >>> input_matrix = [[0, 0, 1], [0, 1, 1], [0, 0, 0]]
+        >>> structures = [[[1]], [[1, 1]]]
+        >>> for index, iteration, result in convex_hull_gen(input_matrix, structures):
+        ...     print(f"Structure {index}, Iteration {iteration}: {result}")
+    """
+    from DIP.neighborhood_operations import pad
+    from DIP.helper import max_dimensions
+    max_dimension = max_dimensions(list_of_structures)
+    matrix = pad(matrix, max_dimension)
+
+    result = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+    for i, structure in enumerate(list_of_structures,1):
+        X_prev = deepcopy(matrix)
+        # yielding x_0
+        yield i, 0, X_prev
+        for k in range(1, max_itiration):
+            X_k = hit_or_miss(X_prev,structure)
+            X_k = union(X_k,X_prev)
+            # Check for convergence
+            if X_k == X_prev:
+                break
+
+            # Update X_prev for next iteration
+            X_prev = X_k
+            yield i, k, X_k
+        result = union(result, X_k)
+        yield i, k, X_k
+    # it supposed to be 0,0 but None makes it doesn't render in black but it look good
+    yield None,None, result

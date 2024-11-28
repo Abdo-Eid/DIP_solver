@@ -1,4 +1,6 @@
 site_name: DIP Solver Documentation
+site_url: https://abdo-eid.github.io/DIP_solver/
+repo_url: https://github.com/Abdo-Eid/DIP_solver
 
 theme:
     name: material

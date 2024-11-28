@@ -1,12 +1,21 @@
 # for this you need to install matplotlib
 # pip install matplotlib
+from typing import Tuple
 from .helper import Matrix,List
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
+def _convert_to_numeric(img):
+    """
+    Convert image with 'x' values to numeric format.
+    Private helper function.
+    """
+    return [[0 if val == 'x' else float(val) for val in row] for row in img]
+
 def plot_morphology(images: List[Matrix], titles: List[str] = None, draw_border=True, show_numbers=False, show_axis=False, figure_scale=0.7):
     """
     Plot morphological images with optional features and size scaling.
+    Handles structuring elements with 'x' values by plotting them as text overlays.
     
     Parameters:
         `images` (list of matrices): List of images to display.
@@ -36,11 +45,14 @@ def plot_morphology(images: List[Matrix], titles: List[str] = None, draw_border=
         axes = [axes]
 
     if titles is None:
-        titles = [i for i in range(1, len(images) + 1)]
+        titles = [str(i) for i in range(1, len(images) + 1)]
 
     for ax, img, title in zip(axes, images, titles):
+        # Convert image to numeric format for display
+        numeric_img = _convert_to_numeric(img)
+        
         # Display image with consistent scaling
-        ax.imshow(img, cmap='gray_r', vmin=0, vmax=1)
+        ax.imshow(numeric_img, cmap='gray_r', vmin=0, vmax=1)
         if title:  # Only set title if it's not an empty string
             ax.set_title(title)
         
@@ -52,15 +64,19 @@ def plot_morphology(images: List[Matrix], titles: List[str] = None, draw_border=
             ax.set_xticks([])
             ax.set_yticks([])
             
-        if show_numbers:
-            # Add pixel values
-            for i in range(len(img)):
-                for j in range(len(img[0])):
-                    text_color = 'white' if img[i][j] == 1 else 'black'
-                    # Scale font size with figure size
-                    fontsize = 10 * figure_scale
-                    ax.text(j, i, str(img[i][j]), ha='center', va='center', 
-                           color=text_color, fontsize=fontsize)
+        # Add pixel values and 'x' markers
+        for i in range(len(img)):
+            for j in range(len(img[0])):
+                val = img[i][j]
+                if val == 'x':
+                    # Plot 'x' in red
+                    ax.text(j, i, 'x', ha='center', va='center', 
+                           color='black', fontsize=50 * figure_scale, fontweight='bold')
+                elif show_numbers:
+                    # Plot numeric values
+                    text_color = 'white' if val == 1 else 'black'
+                    ax.text(j, i, str(val), ha='center', va='center', 
+                           color=text_color, fontsize=10 * figure_scale)
 
         if draw_border:
             num_rows, num_cols = len(img), len(img[0])
@@ -84,16 +100,23 @@ def animate_convex_hull(convex_hull_gen, interval=1000, user_control=False, show
         user_control (bool): If True, allows manual stepping through frames using key presses instead 
                              of automatic playback. Press the right arrow key to advance to the next frame.
         show_prev_in_gray (bool): If True, displays the previous step in gray behind the current step 
-                                  for better visual comparison. Defaults to False.
+                                  for better visual comparison. Defaults to True.
 
     Example:
         >>> gen = convex_hull_gen(input_matrix, structures)
         >>> animate_convex_hull(gen, interval=500, user_control=True)
     """
+
     fig, ax = plt.subplots()
+    frames_list: List[Tuple[int, int, Matrix]] = list(convex_hull_gen)
+    frame_num = len(frames_list)
     
+    if frame_num == 0:
+        raise ValueError("No frames provided by the generator")
+
     # Initialize with the first matrix from the generator
-    structure_num, iteration_num, matrix = next(convex_hull_gen)
+    structure_num, iteration_num, matrix = frames_list[0]
+    current_frame = 0  # Track the current frame index
     prev_matrix = None  # Will hold the previous matrix for displaying in gray
 
     # Display the current matrix in color and add text for metadata
@@ -109,30 +132,39 @@ def animate_convex_hull(convex_hull_gen, interval=1000, user_control=False, show
 
     # Update function to switch frames
     def update(_):
-        nonlocal prev_matrix  # Access the previous matrix
-
-        try:
-            # Get the next frame data
-            structure_num, iteration_num, matrix = next(convex_hull_gen)
-            
+        nonlocal current_frame, prev_matrix
+        # Special last frame to show first matrix in color and last matrix in gray
+        if show_prev_in_gray and current_frame == frame_num:
+            im_color.set_array(frames_list[0][2])
+            if im_gray:
+                im_gray.set_array(frames_list[-1][2])  # Show last matrix in gray
+                im_gray.set_visible(True)
+            text.set_text("Final")
+            return [im_gray, im_color, text] if show_prev_in_gray else [im_color, text]
+        
+        if current_frame < frame_num:
+            structure_num, iteration_num, matrix = frames_list[current_frame]
+                
             # Update previous step in gray if enabled and exists
             if show_prev_in_gray and prev_matrix is not None:
                 im_gray.set_array(prev_matrix)
-                if iteration_num != 0:
+                if iteration_num != 0:  # Don't show gray image at start of new structure
                     im_gray.set_visible(True)
                 else:
                     im_gray.set_visible(False)
-            prev_matrix = matrix  # Update the previous matrix to the current one
 
             # Update the color image and text for the current step
             im_color.set_array(matrix)
             text.set_text(f'Structure: {structure_num}, Iteration: {iteration_num}')
-        except StopIteration:
-            pass
-        return [im_gray, im_color, text] if show_prev_in_gray else [im_color, text]
+            
+            prev_matrix = matrix  # Store current matrix for next frame
+            current_frame += 1  # Increment frame counter
 
-    # Manual stepping function with key press, if user_control is True
+            return [im_gray, im_color, text] if show_prev_in_gray else [im_color, text]
+
+    # Manual stepping function with key press
     def on_key(event):
+        # stop_condition = current_frame <= frame_num if show_prev_in_gray else current_frame < frame_num
         if event.key == 'right':
             update(None)
             plt.draw()
@@ -141,5 +173,14 @@ def animate_convex_hull(convex_hull_gen, interval=1000, user_control=False, show
         fig.canvas.mpl_connect('key_press_event', on_key)
         plt.show()
     else:
-        ani = animation.FuncAnimation(fig, update, frames=None, cache_frame_data=False, interval=interval, blit=False, repeat=False)
+        ani = animation.FuncAnimation(
+            fig, 
+            update, 
+            frames=frame_num, 
+            interval=interval,
+            blit=False,
+            repeat=False
+        )
         plt.show()
+        # to save you must comment plt.show() to save all frames
+        # ani.save("animation.mp4", writer="ffmpeg", fps=1)

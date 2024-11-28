@@ -475,7 +475,7 @@ def hit_or_miss(matrix: Matrix, se1: Matrix, se2: Optional[Matrix] = None) -> Ma
 
 # ===================== computer vision =====================
 
-def convex_hull(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 100):
+def convex_hull(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 100) -> Matrix:
     """
     Computes the convex hull of a binary image using morphological operations.
     The function applies hit-or-miss transformations with specified structuring elements,
@@ -525,7 +525,7 @@ def convex_hull(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:
 
     return trim(result, (max_dimension[0]//2,max_dimension[1]//2))
 
-def convex_hull_gen(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 10):
+def convex_hull_gen(matrix: Matrix, list_of_structures: List[Matrix], max_itiration:int = 10) -> Generator[tuple[int, int, Matrix], None, None]:
     """
     Generates intermediate results while computing the convex hull of a binary image using morphological operations.
 
@@ -573,5 +573,4 @@ def convex_hull_gen(matrix: Matrix, list_of_structures: List[Matrix], max_itirat
             yield i, k, X_k
         result = union(result, X_k)
         yield i, k, X_k
-    # it supposed to be 0,0 but None makes it doesn't render in black but it look good
-    yield None,None, result
+    yield 0,0, result

@@ -545,16 +545,16 @@ def make_realistic_matrix(
     Returns:
         Matrix with realistic intensity distribution
     Examples:
-    >>> helper.make_realistic_matrix()
-    ... [ 0 0 0 0 0 0 0 0 0 ]
-    ... [ 0 0 0 0 0 0 0 0 0 ]
-    ... [ 0 0 0 0 0 0 0 0 0 ]
-    ... [ 0 0 0 0 0 1 1 1 0 ]
-    ... [ 0 0 0 0 0 1 1 1 0 ]
-    ... [ 0 0 0 0 0 1 1 1 0 ]
-    ... [ 0 0 0 1 1 1 1 1 0 ]
-    ... [ 0 0 0 1 1 1 1 0 0 ]
-    ... [ 0 0 0 1 1 1 1 0 0 ]
+        >>> helper.make_realistic_matrix()
+        [ 0 0 0 0 0 0 0 0 0 ]
+        [ 0 0 0 0 0 0 0 0 0 ]
+        [ 0 0 0 0 0 0 0 0 0 ]
+        [ 0 0 0 0 0 1 1 1 0 ]
+        [ 0 0 0 0 0 1 1 1 0 ]
+        [ 0 0 0 0 0 1 1 1 0 ]
+        [ 0 0 0 1 1 1 1 1 0 ]
+        [ 0 0 0 1 1 1 1 0 0 ]
+        [ 0 0 0 1 1 1 1 0 0 ]
     """
     from DIP.neighborhood_operations import Kernels, apply_filter
     
@@ -618,13 +618,13 @@ def max_dimensions(matrices: List[Matrix]) -> Tuple[int, int]:
                         - max_height is the maximum number of rows in any matrix.
 
     Examples:
-    >>> matrices = [
-    ...     [[1, 0], [0, 1]],
-    ...     [[1, 1, 1], [0, 0, 0]],
-    ...     [[1]]
-    ... ]
-    >>> max_dimensions(matrices)
-    (3, 2)
+        >>> matrices = [
+        ...     [[1, 0], [0, 1]],
+        ...     [[1, 1, 1], [0, 0, 0]],
+        ...     [[1]]
+        ... ]
+        >>> max_dimensions(matrices)
+        (3, 2)
     """
     max_width = max(len(matrix[0]) for matrix in matrices if matrix)
     max_height = max(len(matrix) for matrix in matrices if matrix)
@@ -647,14 +647,14 @@ def trim(matrix: Matrix, trim_amount: Tuple[int, int]) -> Matrix:
                         If the trim amount is greater than half the matrix dimensions, an empty matrix is returned.
 
     Example:
-    >>> matrix = [
-    ...     [1, 2, 3, 4],
-    ...     [5, 6, 7, 8],
-    ...     [9, 10, 11, 12],
-    ...     [13, 14, 15, 16]
-    ... ]
-    >>> trim(matrix, (1, 1))
-    [[6, 7], [10, 11]]
+        >>> matrix = [
+        ...     [1, 2, 3, 4],
+        ...     [5, 6, 7, 8],
+        ...     [9, 10, 11, 12],
+        ...     [13, 14, 15, 16]
+        ... ]
+        >>> trim(matrix, (1, 1))
+        [[6, 7], [10, 11]]
     """
     trim_width, trim_height = trim_amount
     num_rows = len(matrix)

@@ -1,0 +1,2949 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://abdo-eid.github.io/DIP_solver/operations/">
+      
+      
+        <link rel="prev" href="../helper/">
+      
+      
+        <link rel="next" href="../segmentation/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Operations - DIP Solver Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dipoperations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="DIP Solver Documentation" class="md-header__button md-logo" aria-label="DIP Solver Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DIP Solver Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdo-Eid/DIP_solver" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../helper/" class="md-tabs__link">
+        
+  
+    
+  
+  Helper
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Operations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../segmentation/" class="md-tabs__link">
+        
+  
+    
+  
+  Segmentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../neighborhood_operations/" class="md-tabs__link">
+        
+  
+    
+  
+  Neighborhood Operations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../morphology/" class="md-tabs__link">
+        
+  
+    
+  
+  Morphology
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../plugins/" class="md-tabs__link">
+        
+  
+    
+  
+  Plugins
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="DIP Solver Documentation" class="md-nav__button md-logo" aria-label="DIP Solver Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DIP Solver Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdo-Eid/DIP_solver" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Operations
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Operations
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.aggregate_matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      aggregate_matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.apply_operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.complement" class="md-nav__link">
+    <span class="md-ellipsis">
+      complement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.gamma" class="md-nav__link">
+    <span class="md-ellipsis">
+      gamma
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_equalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_equalization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_matching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_stretch" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_stretch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.mat_logical_operate" class="md-nav__link">
+    <span class="md-ellipsis">
+      mat_logical_operate
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.mat_operate" class="md-nav__link">
+    <span class="md-ellipsis">
+      mat_operate
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segmentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../neighborhood_operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Neighborhood Operations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../morphology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Morphology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.aggregate_matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      aggregate_matrices
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.apply_operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.complement" class="md-nav__link">
+    <span class="md-ellipsis">
+      complement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.gamma" class="md-nav__link">
+    <span class="md-ellipsis">
+      gamma
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_equalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_equalization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_matching" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_matching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.histogram_stretch" class="md-nav__link">
+    <span class="md-ellipsis">
+      histogram_stretch
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.mat_logical_operate" class="md-nav__link">
+    <span class="md-ellipsis">
+      mat_logical_operate
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.operations.mat_operate" class="md-nav__link">
+    <span class="md-ellipsis">
+      mat_operate
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/Abdo-Eid/DIP_solver/raw/master/docs/operations.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="dipoperations">DIP.operations</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="DIP.operations"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.aggregate_matrices" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">aggregate_matrices</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform specified operation on a list of matrices representing images.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`list_of_matrices`</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<span title="DIP.helper.Matrix">Matrix</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of 2D numpy arrays representing images.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`operation`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Literal">Literal</span>[&#39;diff&#39;, &#39;max&#39;, &#39;min&#39;, &#39;avg&#39;]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The operation to perform. Valid operations are 'diff', 'max', 'min', and 'avg'.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of bits used to represent the pixel values (default is 8 for binary).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Result of the operation.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    
+        <blockquote>
+<blockquote>
+<blockquote>
+<p>matrix1 = [[10 ,20],
+            [30 ,40]]
+matrix2 = [[20 ,30],
+            [5 ,50]]
+max_result = matrices_min([matrix1,matrix2], operation = 'avg', bit_depth = 4)
+for row in max_result:
+...     print(row)
+... [15 ,15]
+... [15 ,15]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">aggregate_matrices</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Matrix</span><span class="p">],</span> <span class="n">operation</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;avg&#39;</span><span class="p">],</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform specified operation on a list of matrices representing images.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        `list_of_matrices` (List[Matrix]): List of 2D numpy arrays representing images.</span>
+<span class="sd">        `operation` (Literal[&#39;diff&#39;, &#39;max&#39;, &#39;min&#39;, &#39;avg&#39;]): The operation to perform. Valid operations are &#39;diff&#39;, &#39;max&#39;, &#39;min&#39;, and &#39;avg&#39;.</span>
+<span class="sd">        `bit_depth` (int): Number of bits used to represent the pixel values (default is 8 for binary).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Result of the operation.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix1 = [[10 ,20],</span>
+<span class="sd">                [30 ,40]]</span>
+<span class="sd">    &gt;&gt;&gt; matrix2 = [[20 ,30],</span>
+<span class="sd">                [5 ,50]]</span>
+<span class="sd">    &gt;&gt;&gt; max_result = matrices_min([matrix1,matrix2], operation = &#39;avg&#39;, bit_depth = 4)</span>
+<span class="sd">    &gt;&gt;&gt; for row in max_result:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">    ... [15 ,15]</span>
+<span class="sd">    ... [15 ,15]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">operation</span> <span class="o">==</span> <span class="s1">&#39;diff&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_abs_diff</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">list_of_matrices</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_matrices_max</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_matrices_min</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="s1">&#39;avg&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_matrices_avg</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">)</span>
+    <span class="c1"># Clip result to ensure it remains within the specified bit depth range</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.apply_operations" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">apply_operations</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">operations</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Apply a series of operations to a matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`operations`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Sequence">Sequence</span>[<span title="typing.Literal">Literal</span>[&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A sequence containing the operations to apply.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`values`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Sequence">Sequence</span>[int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A sequence containing the values for each operation.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth for the operations. Defaults to 8.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The matrix after applying the specified operations.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [
+...     [100, 200, 50],
+...     [150, 75, 225],
+...     [25, 175, 125]
+... ]
+operations = ['+', '-', '*', '/']
+values = [10, 20, 2, 5]
+result = apply_operations(matrix, operations, values, bit_depth=8)
+for row in result:
+...     print(row)
+    [ 36 51 16 ]
+    [ 51 26 51 ]
+    [  6 51 46 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_operations</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+                      <span class="n">operations</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">]],</span>
+                      <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                      <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply a series of operations to a matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix.</span>
+<span class="sd">        `operations` (Sequence[Literal[&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]]): A sequence containing the operations to apply.</span>
+<span class="sd">        `values` (Sequence[int]): A sequence containing the values for each operation.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth for the operations. Defaults to 8.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The matrix after applying the specified operations.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [</span>
+<span class="sd">    ...     [100, 200, 50],</span>
+<span class="sd">    ...     [150, 75, 225],</span>
+<span class="sd">    ...     [25, 175, 125]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; operations = [&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; values = [10, 20, 2, 5]</span>
+<span class="sd">    &gt;&gt;&gt; result = apply_operations(matrix, operations, values, bit_depth=8)</span>
+<span class="sd">    &gt;&gt;&gt; for row in result:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">        [ 36 51 16 ]</span>
+<span class="sd">        [ 51 26 51 ]</span>
+<span class="sd">        [  6 51 46 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">operations</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The length of operations and values must be the same&quot;</span><span class="p">)</span>
+
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">operations</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">value</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">value</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">value</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Division by zero is not allowed&quot;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">normal_round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">value</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported operation: </span><span class="si">{</span><span class="n">op</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.complement" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">complement</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Complement an image and perform solarization if a threshold is given.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix representing an image.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth of the image. Defaults to 8.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`threshold`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The threshold value for solarization. Defaults to 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The complemented and optionally solarized image matrix.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>image = [
+...     [100, 200, 50],
+...     [150, 75, 225],
+...     [25, 175, 125]
+... ]
+complemented_image = complement(image, threshold=100)
+for row in complemented_image:
+...     print(row)
+    [ 155  55  50 ]
+    [ 105  75  30 ]
+    [  25  80 130 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">complement</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Complement an image and perform solarization if a threshold is given.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix representing an image.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth of the image. Defaults to 8.</span>
+<span class="sd">        `threshold` (int, optional): The threshold value for solarization. Defaults to 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The complemented and optionally solarized image matrix.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; image = [</span>
+<span class="sd">    ...     [100, 200, 50],</span>
+<span class="sd">    ...     [150, 75, 225],</span>
+<span class="sd">    ...     [25, 175, 125]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; complemented_image = complement(image, threshold=100)</span>
+<span class="sd">    &gt;&gt;&gt; for row in complemented_image:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">        [ 155  55  50 ]</span>
+<span class="sd">        [ 105  75  30 ]</span>
+<span class="sd">        [  25  80 130 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Clip the matrix values between 0 and max_value</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+
+    <span class="c1"># Apply complementing and solarization</span>
+    <span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">max_value</span> <span class="o">-</span> <span class="n">pixel</span> <span class="k">if</span> <span class="n">pixel</span> <span class="o">&gt;=</span> <span class="n">threshold</span> <span class="k">else</span> <span class="n">pixel</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">matrix</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.gamma" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">gamma</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">gamma_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Apply gamma correction to a matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`gamma_value`</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The gamma value for correction. Defaults to 1.0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth used to determine the maximum value. Defaults to 8.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The matrix after applying gamma correction.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Steps:
+1. Determine the maximum possible value (<code>max_value</code>) based on the bit depth.
+2. Normalize the pixel values in the matrix to the range [0, 1] by dividing each pixel by <code>max_value</code>.
+3. Apply gamma correction to each normalized pixel value by raising it to the power of <code>gamma_value</code>.
+4. Multiply the corrected pixel values by <code>max_value</code> and convert them to integers.
+5. Clamp the corrected pixel values to ensure they fall within the valid range [0, max_value].
+6. Return the matrix after gamma correction.</p>
+<p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [
+...     [100, 200, 50],
+...     [150, 75, 225],
+...     [25, 175, 125]
+... ]
+gamma_corrected_matrix = gamma(matrix, gamma_value=1.5, bit_depth=8)
+for row in gamma_corrected_matrix:
+...     print(row)
+    [  63 177  22 ]
+    [ 115  41 211 ]
+    [   8 145  88 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">gamma</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">gamma_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply gamma correction to a matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix.</span>
+<span class="sd">        `gamma_value` (float, optional): The gamma value for correction. Defaults to 1.0.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth used to determine the maximum value. Defaults to 8.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The matrix after applying gamma correction.</span>
+
+<span class="sd">    Steps:</span>
+<span class="sd">    1. Determine the maximum possible value (`max_value`) based on the bit depth.</span>
+<span class="sd">    2. Normalize the pixel values in the matrix to the range [0, 1] by dividing each pixel by `max_value`.</span>
+<span class="sd">    3. Apply gamma correction to each normalized pixel value by raising it to the power of `gamma_value`.</span>
+<span class="sd">    4. Multiply the corrected pixel values by `max_value` and convert them to integers.</span>
+<span class="sd">    5. Clamp the corrected pixel values to ensure they fall within the valid range [0, max_value].</span>
+<span class="sd">    6. Return the matrix after gamma correction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [</span>
+<span class="sd">    ...     [100, 200, 50],</span>
+<span class="sd">    ...     [150, 75, 225],</span>
+<span class="sd">    ...     [25, 175, 125]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; gamma_corrected_matrix = gamma(matrix, gamma_value=1.5, bit_depth=8)</span>
+<span class="sd">    &gt;&gt;&gt; for row in gamma_corrected_matrix:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">        [  63 177  22 ]</span>
+<span class="sd">        [ 115  41 211 ]</span>
+<span class="sd">        [   8 145  88 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="c1"># doing the operation on each value then round then clip in one line</span>
+    <span class="n">mat_corrected</span> <span class="o">=</span> <span class="p">[[</span><span class="n">clip</span><span class="p">(</span><span class="n">normal_round</span><span class="p">(</span><span class="n">max_value</span> <span class="o">*</span> <span class="p">((</span><span class="n">pixel</span> <span class="o">/</span> <span class="n">max_value</span><span class="p">)</span> <span class="o">**</span> <span class="n">gamma_value</span><span class="p">)),</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mat_corrected</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.histogram_equalization" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">histogram_equalization</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform histogram equalization on a matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth of the matrix. If not provided, it's determined automatically. Defaults to None.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`show`</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A flag indicating whether to display intermediate values during processing. Defaults to False.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The matrix after histogram equalization.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    
+        <blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [[3,3,1,4,],
+            [2,3,0,4,],
+            [2,6,6,3,],
+            [1,4,0,6,]]</p>
+<p>equalized_matrix = histogram_equalization(matrix, bit_depth=3, show=True)
+     R:  0 1 2 3 4 5 6 7
+hist_r:  2 2 2 4 3 0 3 0
+p(r_k):  0.125 0.125 0.125 0.25 0.188 0.0 0.188 0.0
+p(s_k):  0.12 0.25 0.38 0.62 0.81 0.81 1.0 1.0
+     s:  1 2 3 4 6 6 7 7</p>
+<p>display_matrices([equalized_matrix],text=["Histogram Equalization Result:"])
+... Histogram Equalization Result:
+... [ 4 4 2 6 ]
+... [ 3 4 1 6 ]
+... [ 3 7 7 4 ]
+... [ 2 6 1 7 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">histogram_equalization</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform histogram equalization on a matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth of the matrix. If not provided, it&#39;s determined automatically. Defaults to None.</span>
+<span class="sd">        `show` (bool, optional): A flag indicating whether to display intermediate values during processing. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The matrix after histogram equalization.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [[3,3,1,4,],</span>
+<span class="sd">                [2,3,0,4,],</span>
+<span class="sd">                [2,6,6,3,],</span>
+<span class="sd">                [1,4,0,6,]]</span>
+
+<span class="sd">    &gt;&gt;&gt; equalized_matrix = histogram_equalization(matrix, bit_depth=3, show=True)</span>
+<span class="sd">         R:  0 1 2 3 4 5 6 7</span>
+<span class="sd">    hist_r:  2 2 2 4 3 0 3 0</span>
+<span class="sd">    p(r_k):  0.125 0.125 0.125 0.25 0.188 0.0 0.188 0.0</span>
+<span class="sd">    p(s_k):  0.12 0.25 0.38 0.62 0.81 0.81 1.0 1.0</span>
+<span class="sd">         s:  1 2 3 4 6 6 7 7</span>
+
+<span class="sd">    &gt;&gt;&gt; display_matrices([equalized_matrix],text=[&quot;Histogram Equalization Result:&quot;])</span>
+<span class="sd">    ... Histogram Equalization Result:</span>
+<span class="sd">    ... [ 4 4 2 6 ]</span>
+<span class="sd">    ... [ 3 4 1 6 ]</span>
+<span class="sd">    ... [ 3 7 7 4 ]</span>
+<span class="sd">    ... [ 2 6 1 7 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bit_depth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Determine the bit_depth automatically</span>
+        <span class="n">bit_depth</span> <span class="o">=</span> <span class="n">bit_depth_from_mat</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">bit_depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bit depth must be positive.&quot;</span><span class="p">)</span>
+
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">pixel</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="n">total_pixels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat</span><span class="p">)</span>
+    <span class="c1"># make dict for each value in the range</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="c1"># calc the freq for each value</span>
+    <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">:</span>
+        <span class="n">hist</span><span class="p">[</span><span class="n">pixel</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">pdf</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">total_pixels</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">hist</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="c1"># Calculate cumulative distribution function (CDF)</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">cumulative</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pdf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">cumulative</span> <span class="o">+=</span> <span class="n">value</span>
+        <span class="n">cdf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="n">cumulative</span> <span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># For histogram equalization, map each pixel value to its equalized value</span>
+    <span class="c1"># based on its cumulative distribution function (CDF)</span>
+    <span class="n">new_values</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">normal_round</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="n">max_value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">cdf</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     R: &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">hist</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hist_r: &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">hist</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p(r_k): &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p(s_k): &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">cdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     s: &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">new_values</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="n">new_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">new_values</span><span class="p">[</span><span class="n">pixel</span><span class="p">]</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">new_matrix</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.histogram_matching" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">histogram_matching</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">target_histogram</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform histogram matching on a matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`target_histogram`</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[float]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The target histogram for histogram matching.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth of the matrix. If not provided, it's determined automatically. Defaults to None.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`show`</code>
+            </td>
+            <td>
+                  <code>bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A flag indicating whether to display intermediate values during processing. Defaults to False.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The matrix after histogram matching.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Description:
+This function applies histogram matching to the input matrix, matching its histogram to a given target histogram by finding the closest values in the cumulative distribution functions. 
+It supports optional visualization of intermediate values if <code>show</code> is set to True.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    
+        <blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [[0,4,2,6,4],
+      [4,2,4,5,6],
+      [2,4,0,4,6],
+      [6,6,6,0,6]]</p>
+<p>target_histogram = [1,0,5,0,6,6,2,5]</p>
+<p>matched_matrix = histogram_matching(matrix, target_histogram, bit_depth=3, show=True)
+...      R:  0 1 2 3 4 5 6 7
+... p(r_k):  0.15 0.0 0.15 0.0 0.3 0.05 0.35 0.0
+... p(s_k):  0.15 0.15 0.3 0.3 0.6 0.65 1.0 1.0
+... p(z_k):  0.04 0.04 0.24 0.24 0.48 0.72 0.8 1.0
+...      s:  2 2 2 2 4 5 7 7</p>
+<p>display_matrices([matched_matrix],text=["Histogram Matching Result:"])
+... Histogram Matching Result:
+... [ 2 4 2 7 4 ]
+... [ 4 2 4 5 7 ]
+... [ 2 4 2 4 7 ]
+... [ 7 7 7 2 7 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">histogram_matching</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+                       <span class="n">target_histogram</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+                       <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform histogram matching on a matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix.</span>
+<span class="sd">        `target_histogram` (List[float]): The target histogram for histogram matching.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth of the matrix. If not provided, it&#39;s determined automatically. Defaults to None.</span>
+<span class="sd">        `show` (bool, optional): A flag indicating whether to display intermediate values during processing. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The matrix after histogram matching.</span>
+
+<span class="sd">    Description:</span>
+<span class="sd">    This function applies histogram matching to the input matrix, matching its histogram to a given target histogram by finding the closest values in the cumulative distribution functions. </span>
+<span class="sd">    It supports optional visualization of intermediate values if `show` is set to True.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [[0,4,2,6,4],</span>
+<span class="sd">          [4,2,4,5,6],</span>
+<span class="sd">          [2,4,0,4,6],</span>
+<span class="sd">          [6,6,6,0,6]]</span>
+
+<span class="sd">    &gt;&gt;&gt; target_histogram = [1,0,5,0,6,6,2,5]</span>
+
+<span class="sd">    &gt;&gt;&gt; matched_matrix = histogram_matching(matrix, target_histogram, bit_depth=3, show=True)</span>
+<span class="sd">    ...      R:  0 1 2 3 4 5 6 7</span>
+<span class="sd">    ... p(r_k):  0.15 0.0 0.15 0.0 0.3 0.05 0.35 0.0</span>
+<span class="sd">    ... p(s_k):  0.15 0.15 0.3 0.3 0.6 0.65 1.0 1.0</span>
+<span class="sd">    ... p(z_k):  0.04 0.04 0.24 0.24 0.48 0.72 0.8 1.0</span>
+<span class="sd">    ...      s:  2 2 2 2 4 5 7 7</span>
+
+<span class="sd">    &gt;&gt;&gt; display_matrices([matched_matrix],text=[&quot;Histogram Matching Result:&quot;])</span>
+<span class="sd">    ... Histogram Matching Result:</span>
+<span class="sd">    ... [ 2 4 2 7 4 ]</span>
+<span class="sd">    ... [ 4 2 4 5 7 ]</span>
+<span class="sd">    ... [ 2 4 2 4 7 ]</span>
+<span class="sd">    ... [ 7 7 7 2 7 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bit_depth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Determine the bit_depth automatically</span>
+        <span class="n">bit_depth</span> <span class="o">=</span> <span class="n">bit_depth_from_mat</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">bit_depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bit depth must be positive.&quot;</span><span class="p">)</span>
+
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">target_histogram</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Target histogram is required for histogram matching.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_histogram</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Target histogram must be same range of values of matrix.&quot;</span><span class="p">)</span>
+
+    <span class="n">flat</span> <span class="o">=</span> <span class="p">[</span><span class="n">pixel</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="c1"># make dict for each value in the range</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_value</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)}</span>
+    <span class="c1"># calc the freq for each value</span>
+    <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">flat</span><span class="p">:</span>
+        <span class="n">hist</span><span class="p">[</span><span class="n">pixel</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_cdf</span><span class="p">(</span><span class="n">hist</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="c1"># the total may diff from hist to another</span>
+        <span class="n">total_pixels</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">pdf</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">total_pixels</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">hist</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="c1"># Calculate cumulative distribution function (CDF)</span>
+        <span class="n">cdf</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">cumulative</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">pdf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">cumulative</span> <span class="o">+=</span> <span class="n">value</span>
+            <span class="n">cdf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="n">cumulative</span> <span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cdf</span><span class="p">,</span><span class="n">pdf</span>
+
+    <span class="n">cdf</span><span class="p">,</span><span class="n">pdf</span> <span class="o">=</span> <span class="n">_calculate_cdf</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+    <span class="c1"># For histogram matching, calculate the target cumulative distribution function (CDF)</span>
+    <span class="c1"># from the given target histogram and map each pixel value to the closest value</span>
+    <span class="c1"># in the target CDF</span>
+
+    <span class="c1"># make target hist key value pairs since we are taking values only</span>
+    <span class="n">target_hist</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">freq</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">target_histogram</span><span class="p">)}</span>
+    <span class="c1"># Calculate the target cumulative distribution function (CDF)</span>
+    <span class="n">target_cdf</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_calculate_cdf</span><span class="p">(</span><span class="n">target_hist</span><span class="p">)</span>
+    <span class="n">new_values</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">cdf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Find the closest key in the target CDF to match the CDF of the original pixel value</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="n">closest_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">target_key</span><span class="p">,</span><span class="n">target_value</span> <span class="ow">in</span> <span class="n">target_cdf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="n">target_value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">diff</span><span class="p">:</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="n">target_value</span><span class="p">)</span>
+                <span class="n">closest_key</span> <span class="o">=</span> <span class="n">target_key</span>
+        <span class="n">new_values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">closest_key</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="c1"># Calculate the maximum length of elements in the matrix</span>
+        <span class="n">max_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">pdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">))</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">hist</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     R: &quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p(r_k): &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p(s_k): &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">cdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;p(z_k): &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">target_cdf</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;     s: &quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">new_values</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="n">new_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="n">new_values</span><span class="p">[</span><span class="n">pixel</span><span class="p">]</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">new_matrix</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.histogram_stretch" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">histogram_stretch</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform histogram stretching on a matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth used to determine the maximum value. Defaults to 8.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The matrix after histogram stretching.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [
+...     [100, 200, 50],
+...     [150, 75, 225],
+...     [25, 175, 125]
+... ]
+stretched_matrix = histogram_stretch(matrix, bit_depth=8)
+for row in stretched_matrix:
+...     print(row)
+    [  96 223  32 ]
+    [ 159  64 255 ]
+    [   0 191 127 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">histogram_stretch</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform histogram stretching on a matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The input matrix.</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth used to determine the maximum value. Defaults to 8.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The matrix after histogram stretching.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [</span>
+<span class="sd">    ...     [100, 200, 50],</span>
+<span class="sd">    ...     [150, 75, 225],</span>
+<span class="sd">    ...     [25, 175, 125]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; stretched_matrix = histogram_stretch(matrix, bit_depth=8)</span>
+<span class="sd">    &gt;&gt;&gt; for row in stretched_matrix:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">        [  96 223  32 ]</span>
+<span class="sd">        [ 159  64 255 ]</span>
+<span class="sd">        [   0 191 127 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">)</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">)</span>
+    <span class="n">range_val</span> <span class="o">=</span> <span class="n">max_val</span> <span class="o">-</span> <span class="n">min_val</span>
+    <span class="n">max_pixel_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="c1"># doing the stretching then round</span>
+    <span class="n">stretched</span> <span class="o">=</span> <span class="p">[[</span><span class="n">normal_round</span><span class="p">((</span><span class="n">pixel</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_pixel_value</span> <span class="o">/</span> <span class="n">range_val</span><span class="p">))</span> <span class="k">for</span> <span class="n">pixel</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">stretched</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.mat_logical_operate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mat_logical_operate</span><span class="p">(</span><span class="n">matrix1</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform logical operations on two matrices.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix1`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The first matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix2`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The second matrix.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`operation`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Literal">Literal</span>[&#39;AND&#39;, &#39;OR&#39;, &#39;XOR&#39;]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The logical operation to perform. Supported operations are 'AND', 'OR', and 'XOR'.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix1 = [
+...     [1, 0, 1],
+...     [0, 1, 0],
+...     [1, 1, 1]
+... ]
+matrix2 = [
+...     [1, 1, 0],
+...     [0, 0, 1],
+...     [1, 0, 1]
+... ]
+result = logical_operations(matrix1, matrix2, 'AND')
+for row in result:
+...     print(row)
+... [1, 0, 0]
+... [0, 0, 0]
+... [1, 0, 1]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">mat_logical_operate</span><span class="p">(</span><span class="n">matrix1</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+                        <span class="n">operation</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;AND&#39;</span><span class="p">,</span> <span class="s1">&#39;OR&#39;</span><span class="p">,</span> <span class="s1">&#39;XOR&#39;</span><span class="p">],</span>
+                          <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform logical operations on two matrices.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix1` (Matrix): The first matrix.</span>
+<span class="sd">        `matrix2` (Matrix): The second matrix.</span>
+<span class="sd">        `operation` (Literal[&#39;AND&#39;, &#39;OR&#39;, &#39;XOR&#39;]): The logical operation to perform. Supported operations are &#39;AND&#39;, &#39;OR&#39;, and &#39;XOR&#39;.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix1 = [</span>
+<span class="sd">    ...     [1, 0, 1],</span>
+<span class="sd">    ...     [0, 1, 0],</span>
+<span class="sd">    ...     [1, 1, 1]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; matrix2 = [</span>
+<span class="sd">    ...     [1, 1, 0],</span>
+<span class="sd">    ...     [0, 0, 1],</span>
+<span class="sd">    ...     [1, 0, 1]</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; result = logical_operations(matrix1, matrix2, &#39;AND&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; for row in result:</span>
+<span class="sd">    ...     print(row)</span>
+<span class="sd">    ... [1, 0, 0]</span>
+<span class="sd">    ... [0, 0, 0]</span>
+<span class="sd">    ... [1, 0, 1]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix1</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)]</span>
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;AND&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">&amp;</span><span class="n">y</span><span class="p">,</span>
+                  <span class="s1">&#39;OR&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">|</span><span class="n">y</span><span class="p">,</span>
+                  <span class="s1">&#39;XOR&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">^</span><span class="n">y</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">operations</span><span class="p">[</span><span class="n">operation</span><span class="p">](</span><span class="n">matrix1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">matrix2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.operations.mat_operate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mat_operate</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Performs a specified arithmetic operation on a list of matrices.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`list_of_matrices`</code>
+            </td>
+            <td>
+                  <code><span title="typing.List">List</span>[<span title="DIP.helper.Matrix">Matrix</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A list of matrices on which to perform the operation.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`operation`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Literal">Literal</span>[&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The arithmetic operation to perform. Supported operations are addition ('+'), subtraction ('-'), multiplication ('*'), and division ('/').</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The bit depth for clamping result values. Defaults to 8.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The resulting matrix after performing the specified operation.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">matrix1</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix2</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">basic_operations</span><span class="p">([</span><span class="n">matrix1</span><span class="p">,</span> <span class="n">matrix2</span><span class="p">],</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="go">[10, 10, 10]</span>
+<span class="go">[10, 10, 10]</span>
+<span class="go">[10, 10, 10]</span>
+</code></pre></div>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">mat_operate</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Matrix</span><span class="p">],</span>
+                      <span class="n">operation</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">],</span>
+                        <span class="n">bit_depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs a specified arithmetic operation on a list of matrices.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `list_of_matrices` (List[Matrix]): A list of matrices on which to perform the operation.</span>
+<span class="sd">        `operation` (Literal[&#39;+&#39;, &#39;-&#39;, &#39;*&#39;, &#39;/&#39;]): The arithmetic operation to perform. Supported operations are addition (&#39;+&#39;), subtraction (&#39;-&#39;), multiplication (&#39;*&#39;), and division (&#39;/&#39;).</span>
+<span class="sd">        `bit_depth` (int, optional): The bit depth for clamping result values. Defaults to 8.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The resulting matrix after performing the specified operation.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; matrix1 = [</span>
+<span class="sd">        ...     [1, 2, 3],</span>
+<span class="sd">        ...     [4, 5, 6],</span>
+<span class="sd">        ...     [7, 8, 9]</span>
+<span class="sd">        ... ]</span>
+<span class="sd">        &gt;&gt;&gt; matrix2 = [</span>
+<span class="sd">        ...     [9, 8, 7],</span>
+<span class="sd">        ...     [6, 5, 4],</span>
+<span class="sd">        ...     [3, 2, 1]</span>
+<span class="sd">        ... ]</span>
+<span class="sd">        &gt;&gt;&gt; result = basic_operations([matrix1, matrix2], &#39;+&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; for row in result:</span>
+<span class="sd">        ...     print(row)</span>
+<span class="sd">        [10, 10, 10]</span>
+<span class="sd">        [10, 10, 10]</span>
+<span class="sd">        [10, 10, 10]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">list_of_matrices</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">list_of_matrices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;+&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">,</span>
+                  <span class="s1">&#39;-&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">,</span>
+                  <span class="s1">&#39;*&#39;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span>
+                  <span class="s2">&quot;/&quot;</span><span class="p">:</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="n">normal_round</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="n">y</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="n">list_of_matrices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="n">operations</span><span class="p">[</span><span class="n">operation</span><span class="p">](</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]),</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "header.autohide", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

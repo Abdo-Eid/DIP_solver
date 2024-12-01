@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/cv/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/helper/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/morphology/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/neighborhood_operations/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/operations/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/plugins/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+    <url>
+         <loc>https://abdo-eid.github.io/DIP_solver/segmentation/</loc>
+         <lastmod>2024-12-01</lastmod>
+    </url>
+</urlset>

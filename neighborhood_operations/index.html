@@ -1,0 +1,3637 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://abdo-eid.github.io/DIP_solver/neighborhood_operations/">
+      
+      
+        <link rel="prev" href="../segmentation/">
+      
+      
+        <link rel="next" href="../morphology/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Neighborhood Operations - DIP Solver Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dipneighborhood_operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="DIP Solver Documentation" class="md-header__button md-logo" aria-label="DIP Solver Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            DIP Solver Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Neighborhood Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5M7 15a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Abdo-Eid/DIP_solver" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../helper/" class="md-tabs__link">
+        
+  
+    
+  
+  Helper
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../operations/" class="md-tabs__link">
+        
+  
+    
+  
+  Operations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../segmentation/" class="md-tabs__link">
+        
+  
+    
+  
+  Segmentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Neighborhood Operations
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../morphology/" class="md-tabs__link">
+        
+  
+    
+  
+  Morphology
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../plugins/" class="md-tabs__link">
+        
+  
+    
+  
+  Plugins
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="DIP Solver Documentation" class="md-nav__button md-logo" aria-label="DIP Solver Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    DIP Solver Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Abdo-Eid/DIP_solver" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../operations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Operations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segmentation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Neighborhood Operations
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Neighborhood Operations
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      neighborhood_operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.Kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kernels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.adaptive_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      adaptive_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.apply_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.apply_gradient_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_gradient_operator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.correlate" class="md-nav__link">
+    <span class="md-ellipsis">
+      correlate
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.create_gaussian_kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_gaussian_kernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.get_pixel_neighborhoods" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pixel_neighborhoods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.outlier_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      outlier_method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="outlier_method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.outlier_method--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.pad" class="md-nav__link">
+    <span class="md-ellipsis">
+      pad
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      prewitt_operator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prewitt_operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator--result-highlights-vertical-and-horizontal-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result highlights vertical and horizontal edges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.rank_order_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      rank_order_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      roberts_operator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="roberts_operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator--result-highlights-diagonal-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result highlights diagonal edges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.sobel_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      sobel_operator
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../morphology/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Morphology
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Plugins
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      neighborhood_operations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.Kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kernels
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.adaptive_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      adaptive_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.apply_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.apply_gradient_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      apply_gradient_operator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.correlate" class="md-nav__link">
+    <span class="md-ellipsis">
+      correlate
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.create_gaussian_kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_gaussian_kernel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.get_pixel_neighborhoods" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pixel_neighborhoods
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.outlier_method" class="md-nav__link">
+    <span class="md-ellipsis">
+      outlier_method
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="outlier_method">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.outlier_method--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.pad" class="md-nav__link">
+    <span class="md-ellipsis">
+      pad
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      prewitt_operator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="prewitt_operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.prewitt_operator--result-highlights-vertical-and-horizontal-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result highlights vertical and horizontal edges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.rank_order_filter" class="md-nav__link">
+    <span class="md-ellipsis">
+      rank_order_filter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      roberts_operator
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="roberts_operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator--notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.roberts_operator--result-highlights-diagonal-edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Result highlights diagonal edges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#DIP.neighborhood_operations.sobel_operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      sobel_operator
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/Abdo-Eid/DIP_solver/raw/master/docs/neighborhood_operations.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="dipneighborhood_operations">DIP.neighborhood_operations</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="DIP.neighborhood_operations"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="DIP.neighborhood_operations.Kernels" class="doc doc-heading">
+            <code>Kernels</code>
+
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Collection of common image processing kernels used for filtering and edge detection.</p>
+<p>Each kernel is represented as a 2D list of coefficients that can be applied to an image
+through convolution or correlation operations.</p>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Kernels</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collection of common image processing kernels used for filtering and edge detection.</span>
+
+<span class="sd">    Each kernel is represented as a 2D list of coefficients that can be applied to an image</span>
+<span class="sd">    through convolution or correlation operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Averaging filter with uniform weights</span>
+    <span class="n">smoothing_filter</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">,</span> <span class="mf">0.111</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># 1/9 weight for each pixel</span>
+
+    <span class="c1"># Gaussian-like smoothing filter with center-weighted coefficients</span>
+    <span class="n">weighted_smoothing_filter</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.0625</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.0625</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.0625</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.0625</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># Approximates Gaussian blur</span>
+
+    <span class="c1"># Enhancement filter that emphasizes edges</span>
+    <span class="n">high_pass_filter</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Roberts cross-gradient operators</span>
+    <span class="n">robert_operator</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># Detects diagonal edges</span>
+
+    <span class="c1"># Prewitt gradient operators</span>
+    <span class="n">prewitt_operator</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># Detects vertical edges (horizontal gradient)</span>
+
+    <span class="c1"># Sobel gradient operators</span>
+    <span class="n">sobel_operator</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># Enhanced edge detection with central emphasis</span>
+
+    <span class="c1"># Laplacian operator for edge detection</span>
+    <span class="n">laplacian_operator</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="p">]</span>  <span class="c1"># Second derivative operator</span>
+
+    <span class="c1"># 3*3 gaussian kernel with sigma = 2</span>
+    <span class="n">gaussian_kernel</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.1019</span><span class="p">,</span> <span class="mf">0.1154</span><span class="p">,</span> <span class="mf">0.1019</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.1154</span><span class="p">,</span> <span class="mf">0.1308</span><span class="p">,</span> <span class="mf">0.1154</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.1019</span><span class="p">,</span> <span class="mf">0.1154</span><span class="p">,</span> <span class="mf">0.1019</span><span class="p">]</span>
+        <span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.adaptive_filter" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">adaptive_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Applies adaptive local noise reduction filter using local statistics. The filter adapts to local image properties</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input image as 2D list</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`kernel_dim`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(width, height) of the neighborhood window</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Padding value for border handling</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Filtered image with noise reduction</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>steps:
+- calculate global mean <code>mu_g</code> to calculate population variance <code>sigma_g</code>
+- calculate local mean <code>mu</code> and sample variance <code>sigma</code>
+- get the estimate value of of pixel (x,y)
+- pixel_est = mu + sigma * (pixel - mu)/(sigma + sigma_g)</p>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">adaptive_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">:</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">int</span><span class="p">],</span> <span class="n">pad_with</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies adaptive local noise reduction filter using local statistics. The filter adapts to local image properties</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): Input image as 2D list</span>
+<span class="sd">        `kernel_dim` (Tuple[int, int]): (width, height) of the neighborhood window</span>
+<span class="sd">        `pad_with` (int, optional): Padding value for border handling</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Filtered image with noise reduction</span>
+
+<span class="sd">    steps:</span>
+<span class="sd">    - calculate global mean `mu_g` to calculate population variance `sigma_g`</span>
+<span class="sd">    - calculate local mean `mu` and sample variance `sigma`</span>
+<span class="sd">    - get the estimate value of of pixel (x,y)</span>
+<span class="sd">    - pixel_est = mu + sigma * (pixel - mu)/(sigma + sigma_g)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">calculate_statistics</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">variance</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">variance</span>
+
+    <span class="n">k_width</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_hieght</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">kernel_size</span> <span class="o">=</span> <span class="n">k_width</span> <span class="o">*</span> <span class="n">k_hieght</span>
+
+    <span class="n">output_mat</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+
+
+    <span class="c1"># calculate population variance `sigma_g`</span>
+    <span class="n">flat_mat</span> <span class="o">=</span> <span class="n">flatten_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="n">mat_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">flat_mat</span><span class="p">)</span>
+    <span class="n">mu_g</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">flat_mat</span><span class="p">)</span> <span class="o">/</span> <span class="n">mat_size</span>
+    <span class="n">sigma_g</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu_g</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">flat_mat</span><span class="p">)</span> <span class="o">/</span> <span class="n">mat_size</span>
+
+    <span class="k">for</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="n">_get_neighborhood_and_center</span><span class="p">(</span><span class="n">matrix</span><span class="p">,(</span><span class="n">k_width</span><span class="p">,</span><span class="n">k_hieght</span><span class="p">),</span><span class="n">pad_with</span><span class="o">=</span><span class="n">pad_with</span><span class="p">):</span>
+        <span class="c1"># calculate local mean `mu` and sample variance `sigma`</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">elem</span> <span class="k">for</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">neighbors</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">)</span><span class="o">/</span><span class="n">kernel_size</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">elem</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">matrix</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">current_pixel</span> <span class="o">=</span> <span class="n">output_mat</span><span class="p">[</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="n">output_mat</span><span class="p">[</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">DP</span><span class="o">.</span><span class="n">normal_round</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="n">current_pixel</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sigma</span> <span class="o">+</span> <span class="n">sigma_g</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output_mat</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.apply_filter" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">apply_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>wrapper on correlate function that round the output</p>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wrapper on correlate function that round the output&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">[[</span><span class="n">DP</span><span class="o">.</span><span class="n">normal_round</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">correlate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">)]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.apply_gradient_operator" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">apply_gradient_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generic function to apply gradient operators using pure Python.</p>
+<p>Parameters::
+    <code>matrix</code>: Input image as 2D list
+    <code>kernel</code>: Primary gradient kernel
+    <code>bit_depth</code>: Bit depth for output value clipping
+    <code>pad_with</code>: Padding value for border handling</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Edge-detected image</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">apply_gradient_operator</span><span class="p">(</span>
+    <span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">kernel</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">bit_depth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pad_with</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generic function to apply gradient operators using pure Python.</span>
+
+<span class="sd">    Parameters::</span>
+<span class="sd">        `matrix`: Input image as 2D list</span>
+<span class="sd">        `kernel`: Primary gradient kernel</span>
+<span class="sd">        `bit_depth`: Bit depth for output value clipping</span>
+<span class="sd">        `pad_with`: Padding value for border handling</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Edge-detected image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rotated_kernel</span> <span class="o">=</span> <span class="n">rotate_90</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+
+    <span class="n">gradient_x</span> <span class="o">=</span> <span class="n">correlate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">)</span> <span class="c1">#f1</span>
+    <span class="n">gradient_y</span> <span class="o">=</span> <span class="n">correlate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">rotated_kernel</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">)</span> <span class="c1">#f2</span>
+
+    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gradient_x</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">gradient_x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">width</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span>
+
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+            <span class="n">magnitude</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gradient_x</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">gradient_y</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">DP</span><span class="o">.</span><span class="n">normal_round</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.correlate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">correlate</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Perform convolution operation on a matrix using a given kernel.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The original matrix on which convolution is applied.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`kernel`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The convolution kernel.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Padding value border handling. If <code>None</code>, no padding is applied, output is smaller than input. Defaults to <code>None</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>Matrix</code>: The result of convolving the matrix with the kernel.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="description" open>
+  <summary>Description</summary>
+  <p>This function performs correlation operation on the <code>matrix</code> using the specified <code>kernel</code>.
+It supports optional padding with a specified value.
+Correlation is performed by sliding the kernel over the matrix and computing the dot product between the kernel and the neighborhood of each pixel.</p>
+</details>        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [[1, 2, 3],
+...           [4, 5, 6],
+...           [7, 8, 9]]
+kernel = [[1, 0, -1],
+...           [1, 0, -1],
+...           [1, 0, -1]]
+result = correlate(matrix, kernel,pad_with=0)
+result
+[[-7, -4, 7],
+[-15, -6, 15],
+[-13, -4, 13]]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">correlate</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform convolution operation on a matrix using a given kernel.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The original matrix on which convolution is applied.</span>
+<span class="sd">        `kernel` (Matrix): The convolution kernel.</span>
+<span class="sd">        `pad_with` (int, optional): Padding value border handling. If `None`, no padding is applied, output is smaller than input. Defaults to `None`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        `Matrix`: The result of convolving the matrix with the kernel.</span>
+
+<span class="sd">    Description:</span>
+<span class="sd">        This function performs correlation operation on the `matrix` using the specified `kernel`.</span>
+<span class="sd">        It supports optional padding with a specified value.</span>
+<span class="sd">        Correlation is performed by sliding the kernel over the matrix and computing the dot product between the kernel and the neighborhood of each pixel.</span>
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [[1, 2, 3],</span>
+<span class="sd">    ...           [4, 5, 6],</span>
+<span class="sd">    ...           [7, 8, 9]]</span>
+<span class="sd">    &gt;&gt;&gt; kernel = [[1, 0, -1],</span>
+<span class="sd">    ...           [1, 0, -1],</span>
+<span class="sd">    ...           [1, 0, -1]]</span>
+<span class="sd">    &gt;&gt;&gt; result = correlate(matrix, kernel,pad_with=0)</span>
+<span class="sd">    &gt;&gt;&gt; result</span>
+<span class="sd">    [[-7, -4, 7],</span>
+<span class="sd">    [-15, -6, 15],</span>
+<span class="sd">    [-13, -4, 13]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bit_depth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bit_depth</span> <span class="o">=</span> <span class="n">bit_depth_from_mat</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">bit_depth</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">k_w</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">k_h</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pad_with</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># make smaller matrix</span>
+        <span class="n">output_mat</span> <span class="o">=</span> <span class="p">[[</span><span class="n">pad_with</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">k_w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">k_h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pad_with</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># output will be same size as original in this case</span>
+        <span class="n">output_mat</span> <span class="o">=</span> <span class="p">[[</span><span class="n">pad_with</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span>
+
+        <span class="n">matrix</span> <span class="o">=</span> <span class="n">pad</span><span class="p">(</span><span class="n">matrix</span><span class="p">,(</span><span class="n">k_w</span><span class="p">,</span><span class="n">k_h</span><span class="p">),</span><span class="n">pad_with</span><span class="p">)</span>
+        <span class="c1"># get the new dimentions to work on</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;padding must be None or integer&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">k_h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">k_w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># getting the values same size as the filter </span>
+            <span class="n">neighborhood</span> <span class="o">=</span> <span class="n">slice_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,(</span><span class="n">row</span><span class="p">,</span><span class="n">row</span> <span class="o">+</span> <span class="n">k_h</span><span class="p">),(</span><span class="n">col</span><span class="p">,</span> <span class="n">col</span> <span class="o">+</span> <span class="n">k_w</span><span class="p">))</span>
+            <span class="c1"># for every row in neighborhood and kernel and for each element in both rows multiply elements then sum all</span>
+            <span class="n">output_mat</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">clip</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">e</span> <span class="o">*</span> <span class="n">v</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">flatten_matrix</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">),</span> <span class="n">flatten_matrix</span><span class="p">(</span><span class="n">kernel</span><span class="p">))),</span><span class="mi">2</span><span class="p">),</span><span class="mi">0</span><span class="p">,</span><span class="n">max_value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_mat</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.create_gaussian_kernel" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_gaussian_kernel</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a 2D Gaussian kernel (filter) for image smoothing.</p>
+<p>The Gaussian kernel is created using the 2D Gaussian function:
+G(x,y) = (1/(2π*σ²)) * e^(-(x² + y²)/(2σ²))</p>
+<p>Where:
+- x,y are distances from the kernel center
+- σ (sigma) controls the spread of the Gaussian
+- Size determines the kernel dimensions (must be odd)</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>size</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Kernel size (must be odd). Larger size = more pixels involved in smoothing</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>sigma</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Standard deviation of Gaussian. Larger sigma = more blurring</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="typing.List">List</span>[<span title="typing.List">List</span>[float]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>2D list representing the Gaussian kernel, normalized to sum to 1</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>ValueError</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If size is even or sigma is not positive</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">create_gaussian_kernel</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a 2D Gaussian kernel (filter) for image smoothing.</span>
+
+<span class="sd">    The Gaussian kernel is created using the 2D Gaussian function:</span>
+<span class="sd">    G(x,y) = (1/(2π*σ²)) * e^(-(x² + y²)/(2σ²))</span>
+
+<span class="sd">    Where:</span>
+<span class="sd">    - x,y are distances from the kernel center</span>
+<span class="sd">    - σ (sigma) controls the spread of the Gaussian</span>
+<span class="sd">    - Size determines the kernel dimensions (must be odd)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        size: Kernel size (must be odd). Larger size = more pixels involved in smoothing</span>
+<span class="sd">        sigma: Standard deviation of Gaussian. Larger sigma = more blurring</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        2D list representing the Gaussian kernel, normalized to sum to 1</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If size is even or sigma is not positive</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="n">pi</span>
+
+    <span class="c1"># Validate inputs</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Kernel size must be odd to have a clear center point&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sigma</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sigma must be positive&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Calculate center point of kernel</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="c1"># Calculate normalization factor: 1/(2π*σ²)</span>
+    <span class="c1"># This is part of the 2D Gaussian formula</span>
+    <span class="n">norm_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span>
+
+    <span class="c1"># Initialize kernel and running sum for normalization</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">kernel_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Generate kernel values</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="c1"># Calculate distance from center (x,y coordinates relative to center)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">center</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">center</span>
+
+            <span class="c1"># Calculate squared distance from center</span>
+            <span class="c1"># This is (x² + y²) in the formula</span>
+            <span class="n">squared_dist</span> <span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">y</span>
+
+            <span class="c1"># Calculate exponent: -(x² + y²)/(2σ²)</span>
+            <span class="n">exponent</span> <span class="o">=</span> <span class="o">-</span><span class="n">squared_dist</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">)</span>
+
+            <span class="c1"># Calculate Gaussian value using the complete formula</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">norm_factor</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span>
+
+            <span class="c1"># Add to running sum for later normalization</span>
+            <span class="n">kernel_sum</span> <span class="o">+=</span> <span class="n">value</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">kernel</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+    <span class="c1"># Normalize kernel so all values sum to 1</span>
+    <span class="c1"># This ensures image brightness is preserved after filtering</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">kernel</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">kernel</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">kernel_sum</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">kernel</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.get_pixel_neighborhoods" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_pixel_neighborhoods</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Extracts a neighborhood of a pixel from a matrix based on the given kernel size.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The original matrix from which to extract the neighborhood.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pixel_pos`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The position of the pixel around which to extract the neighborhood.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`kernel_dim`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dimensions of the kernel used to define the neighborhood size.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A matrix representing the neighborhood of the specified pixel.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+<span class="gp">... </span>          <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+<span class="gp">... </span>          <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+<span class="gp">... </span>          <span class="p">[</span><span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pixel_pos</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel_dim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span> <span class="o">=</span> <span class="n">neighborhoods_of_pixel</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span>
+<span class="go">[[1, 2, 3],</span>
+<span class="go">[5, 6, 7],</span>
+<span class="go">[9, 10, 11]]</span>
+</code></pre></div>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_pixel_neighborhoods</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">pixel_pos</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts a neighborhood of a pixel from a matrix based on the given kernel size.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The original matrix from which to extract the neighborhood.</span>
+<span class="sd">        `pixel_pos` (Tuple[int, int]): The position of the pixel around which to extract the neighborhood.</span>
+<span class="sd">        `kernel_dim` (Tuple[int, int]): Dimensions of the kernel used to define the neighborhood size.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A matrix representing the neighborhood of the specified pixel.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; matrix = [[1, 2, 3, 4],</span>
+<span class="sd">        ...           [5, 6, 7, 8],</span>
+<span class="sd">        ...           [9, 10, 11, 12],</span>
+<span class="sd">        ...           [13, 14, 15, 16]]</span>
+<span class="sd">        &gt;&gt;&gt; pixel_pos = (1, 1)</span>
+<span class="sd">        &gt;&gt;&gt; kernel_dim = (3, 3)</span>
+<span class="sd">        &gt;&gt;&gt; neighborhood = neighborhoods_of_pixel(matrix, pixel_pos, kernel_dim)</span>
+<span class="sd">        &gt;&gt;&gt; neighborhood</span>
+<span class="sd">        [[1, 2, 3],</span>
+<span class="sd">        [5, 6, 7],</span>
+<span class="sd">        [9, 10, 11]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+    <span class="n">k_w</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_h</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">left</span><span class="p">,</span><span class="n">top</span> <span class="o">=</span> <span class="n">get_center</span><span class="p">(</span><span class="n">k_w</span><span class="p">,</span><span class="n">k_h</span><span class="p">)</span>
+    <span class="c1"># lenght - indx = lenght - 1 = indx</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">k_w</span> <span class="o">-</span> <span class="n">left</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">down</span> <span class="o">=</span> <span class="n">k_h</span> <span class="o">-</span> <span class="n">top</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Calculate the starting position for the neighborhood</span>
+    <span class="n">start_row</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">left</span><span class="p">)</span>
+    <span class="n">start_col</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">top</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the ending position for the neighborhood</span>
+    <span class="n">end_row</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">down</span><span class="p">)</span>
+    <span class="n">end_col</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the size of the neighborhood matrix</span>
+    <span class="n">neighborhood_width</span> <span class="o">=</span> <span class="n">end_col</span> <span class="o">-</span> <span class="n">start_col</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">neighborhood_height</span> <span class="o">=</span> <span class="n">end_row</span> <span class="o">-</span> <span class="n">start_row</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># Create a zero-filled matrix of the shape of the kernel</span>
+    <span class="n">output_matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_w</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k_h</span><span class="p">)]</span>
+
+    <span class="c1"># Calculate the shift amount</span>
+    <span class="n">shift_row</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span> <span class="o">-</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">shift_col</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">left</span> <span class="o">-</span> <span class="n">pixel_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Copy values from the original matrix to the output matrix</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">neighborhood_height</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">neighborhood_width</span><span class="p">):</span>
+            <span class="n">output_matrix</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">shift_row</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="n">shift_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">start_row</span> <span class="o">+</span> <span class="n">i</span><span class="p">][</span><span class="n">start_col</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">output_matrix</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.outlier_method" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">outlier_method</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Applies an outlier detection and correction method to a matrix based on a threshold.
+If the mean value of a pixel's neighborhood exceeds the threshold, the pixel value is
+replaced with the rounded neighborhood mean. This helps to smooth out isolated outliers
+in the matrix.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The original matrix on which the outlier method is applied.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`threshold`</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The threshold value used for determining outliers.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A new matrix with outliers replaced by neighborhood means where applicable.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <h4 id="DIP.neighborhood_operations.outlier_method--notes">Notes</h4>
+<ul>
+<li>The 3x3 mean kernel used in this method is defined as:
+    mean_kernel = [[0.125, 0.125, 0.125], 
+                   [0.125, 0, 0.125], 
+                   [0.125, 0.125, 0.125]]</li>
+<li>The kernel excludes the center pixel from the mean computation.</li>
+<li>Only pixels with a neighborhood mean greater than or equal to the threshold
+  are updated to the neighborhood mean.</li>
+</ul>
+<p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>img = [[10, 20, 30],
+...        [40, 50, 60],
+...        [70, 80, 90]]
+processed_img = outlier_method(img, threshold=50)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">outlier_method</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies an outlier detection and correction method to a matrix based on a threshold.</span>
+<span class="sd">    If the mean value of a pixel&#39;s neighborhood exceeds the threshold, the pixel value is</span>
+<span class="sd">    replaced with the rounded neighborhood mean. This helps to smooth out isolated outliers</span>
+<span class="sd">    in the matrix.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The original matrix on which the outlier method is applied.</span>
+<span class="sd">        `threshold` (float): The threshold value used for determining outliers.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: A new matrix with outliers replaced by neighborhood means where applicable.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    - The 3x3 mean kernel used in this method is defined as:</span>
+<span class="sd">        mean_kernel = [[0.125, 0.125, 0.125], </span>
+<span class="sd">                       [0.125, 0, 0.125], </span>
+<span class="sd">                       [0.125, 0.125, 0.125]]</span>
+<span class="sd">    - The kernel excludes the center pixel from the mean computation.</span>
+<span class="sd">    - Only pixels with a neighborhood mean greater than or equal to the threshold</span>
+<span class="sd">      are updated to the neighborhood mean.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; img = [[10, 20, 30],</span>
+<span class="sd">    ...        [40, 50, 60],</span>
+<span class="sd">    ...        [70, 80, 90]]</span>
+<span class="sd">    &gt;&gt;&gt; processed_img = outlier_method(img, threshold=50)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Deep copy the input matrix to avoid modifying the original matrix</span>
+    <span class="n">output_mat</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+    <span class="c1"># Define the 3x3 mean kernel for neighborhood calculation</span>
+    <span class="c1"># for the neighberhood multiply by 1/8 in all places but the center</span>
+    <span class="n">mean_kernel</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">,</span> <span class="mf">0.125</span><span class="p">]]</span>
+    <span class="n">k_height</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_kernel</span><span class="p">)</span>
+    <span class="n">k_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean_kernel</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Iterate through each neighborhood with its center pixel</span>
+    <span class="k">for</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="n">_get_neighborhood_and_center</span><span class="p">(</span><span class="n">output_mat</span><span class="p">,</span> <span class="p">(</span><span class="n">k_width</span><span class="p">,</span> <span class="n">k_height</span><span class="p">)):</span>
+        <span class="c1"># Calculate the mean value of the neighborhood using the mean kernel</span>
+        <span class="n">neighborhood_mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">neighbors</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="o">*</span> <span class="n">mean_kernel</span><span class="p">[</span><span class="n">row</span><span class="p">][</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+
+        <span class="c1"># Replace the center pixel with the rounded neighborhood mean if it exceeds the threshold</span>
+        <span class="k">if</span> <span class="n">neighborhood_mean</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">output_mat</span><span class="p">[</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">DP</span><span class="o">.</span><span class="n">normal_round</span><span class="p">(</span><span class="n">neighborhood_mean</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_mat</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.pad" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pad</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_shape</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pads a matrix with a specified value.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The original matrix to be padded.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`kernel_shape`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(width, height) of the kernel, used to determine the padding.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Value to pad the matrix with. Defaults is 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The padded matrix.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>ValueError</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If pad_value is not an integer</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    
+        <blockquote>
+<blockquote>
+<blockquote>
+<p>mat=[[3,1,5],
+        [3,0,1],
+        [5,4,1],
+        [0,2,2]]
+display_matrices([pad(mat, (2,4))])
+... [ 0 0 0 0 ]
+... [ 0 0 0 0 ]
+... [ 0 3 1 5 ]
+... [ 0 3 0 1 ]
+... [ 0 5 4 1 ]
+... [ 0 0 2 2 ]
+... [ 0 0 0 0 ]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pad</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">kernel_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">int</span><span class="p">],</span><span class="n">pad_with</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pads a matrix with a specified value.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The original matrix to be padded.</span>
+<span class="sd">        `kernel_shape` (Tuple[int,int]): (width, height) of the kernel, used to determine the padding.</span>
+<span class="sd">        `pad_with` (int): Value to pad the matrix with. Defaults is 0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The padded matrix.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If pad_value is not an integer</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; mat=[[3,1,5],</span>
+<span class="sd">            [3,0,1],</span>
+<span class="sd">            [5,4,1],</span>
+<span class="sd">            [0,2,2]]</span>
+<span class="sd">    &gt;&gt;&gt; display_matrices([pad(mat, (2,4))])</span>
+<span class="sd">    ... [ 0 0 0 0 ]</span>
+<span class="sd">    ... [ 0 0 0 0 ]</span>
+<span class="sd">    ... [ 0 3 1 5 ]</span>
+<span class="sd">    ... [ 0 3 0 1 ]</span>
+<span class="sd">    ... [ 0 5 4 1 ]</span>
+<span class="sd">    ... [ 0 0 2 2 ]</span>
+<span class="sd">    ... [ 0 0 0 0 ]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pad_with</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;pad_with must be an integer&quot;</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">k_w</span><span class="p">,</span> <span class="n">k_h</span> <span class="o">=</span> <span class="n">kernel_shape</span>
+    <span class="c1"># get the how much center is away from each corner of the kernel</span>
+    <span class="c1"># the index is number of rows or column away from this point</span>
+    <span class="n">pad_top</span><span class="p">,</span><span class="n">pad_left</span> <span class="o">=</span> <span class="n">get_center</span><span class="p">(</span><span class="n">k_w</span><span class="p">,</span><span class="n">k_h</span><span class="p">)</span>
+    <span class="c1"># lenght - indx = lenght - 1 = indx</span>
+    <span class="n">pad_right</span> <span class="o">=</span> <span class="n">k_w</span> <span class="o">-</span> <span class="n">pad_left</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">pad_bottom</span> <span class="o">=</span> <span class="n">k_h</span> <span class="o">-</span> <span class="n">pad_top</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">padded_width</span> <span class="o">=</span> <span class="n">width</span> <span class="o">+</span> <span class="n">pad_left</span> <span class="o">+</span> <span class="n">pad_right</span>
+
+    <span class="c1"># Create top padding rows</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="n">pad_with</span><span class="p">]</span> <span class="o">*</span> <span class="n">padded_width</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pad_top</span><span class="p">)]</span>
+
+    <span class="c1"># Add rows with content</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">:</span>
+        <span class="n">padded_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">pad_with</span><span class="p">]</span> <span class="o">*</span> <span class="n">pad_left</span> <span class="o">+</span> <span class="n">row</span> <span class="o">+</span> <span class="p">[</span><span class="n">pad_with</span><span class="p">]</span> <span class="o">*</span> <span class="n">pad_right</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">padded_row</span><span class="p">)</span>
+
+    <span class="c1"># Add bottom padding rows</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">([[</span><span class="n">pad_with</span><span class="p">]</span> <span class="o">*</span> <span class="n">padded_width</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pad_bottom</span><span class="p">)])</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.prewitt_operator" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">prewitt_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Applies the Prewitt operator for edge detection.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input image as a 2D list</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Bit depth for output value clipping</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Padding value for border handling</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Edge-detected image</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <h4 id="DIP.neighborhood_operations.prewitt_operator--notes">Notes</h4>
+<p>The Prewitt operator uses two 3×3 kernels to compute horizontal and vertical gradients:
+Gx = [[-1, 0, 1],     Gy = [[-1, -1, -1],
+      [-1, 0, 1],           [ 0,  0,  0],
+      [-1, 0, 1]]           [ 1,  1,  1]]</p>
+<p>The final magnitude is computed as: sqrt(Gx² + Gy²)</p>
+<p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>img = [[1, 2, 3],
+...        [4, 5, 6],
+...        [7, 8, 9]]
+edges = prewitt_operator(img, pad_with=0)</p>
+<h3 id="DIP.neighborhood_operations.prewitt_operator--result-highlights-vertical-and-horizontal-edges">Result highlights vertical and horizontal edges</h3>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">prewitt_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies the Prewitt operator for edge detection.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): Input image as a 2D list</span>
+<span class="sd">        `bit_depth` (int, optional): Bit depth for output value clipping</span>
+<span class="sd">        `pad_with` (int, optional): Padding value for border handling</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Edge-detected image</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Prewitt operator uses two 3×3 kernels to compute horizontal and vertical gradients:</span>
+<span class="sd">    Gx = [[-1, 0, 1],     Gy = [[-1, -1, -1],</span>
+<span class="sd">          [-1, 0, 1],           [ 0,  0,  0],</span>
+<span class="sd">          [-1, 0, 1]]           [ 1,  1,  1]]</span>
+
+<span class="sd">    The final magnitude is computed as: sqrt(Gx² + Gy²)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; img = [[1, 2, 3],</span>
+<span class="sd">    ...        [4, 5, 6],</span>
+<span class="sd">    ...        [7, 8, 9]]</span>
+<span class="sd">    &gt;&gt;&gt; edges = prewitt_operator(img, pad_with=0)</span>
+<span class="sd">    &gt;&gt;&gt; # Result highlights vertical and horizontal edges</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">apply_gradient_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">Kernels</span><span class="o">.</span><span class="n">prewitt_operator</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.rank_order_filter" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rank_order_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Apply rank-order filter on a matrix using a given kernel size and rank.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The original matrix on which the filter is applied.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`kernel_dim`</code>
+            </td>
+            <td>
+                  <code><span title="typing.Tuple">Tuple</span>[int, int]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>(<code>width</code>, <code>height</code>) The dimensions of the filter kernel.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`rank`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The rank used in the rank-order filter, starts from 1 to the size of the kernel (width * height).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The value used for padding the matrix. If <code>None</code>, no padding is applied. Defaults to <code>None</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The result of applying the rank-order filter on the matrix.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="description" open>
+  <summary>Description</summary>
+  <p>This function applies a rank-order filter on the <code>matrix</code> using a filter kernel of specified dimensions (<code>kernel_dim</code>).
+The <code>rank</code> parameter determines which element in the sorted neighborhood values is selected as the output pixel value.</p>
+</details>        <p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>matrix = [[1, 2, 3],
+...           [4, 5, 6],
+...           [7, 8, 9]]
+kernel_dim = (3, 3)
+rank = 3
+result = rank_order_filter(matrix, kernel_dim, rank, pad_with = 0)
+result
+[[0, 0, 0]
+,[0, 3, 0]
+,[0, 0, 0]]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rank_order_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">kernel_dim</span><span class="p">:</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span><span class="nb">int</span><span class="p">],</span> <span class="n">rank</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">:</span><span class="nb">int</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply rank-order filter on a matrix using a given kernel size and rank.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): The original matrix on which the filter is applied.</span>
+<span class="sd">        `kernel_dim` (Tuple[int,int]): (`width`, `height`) The dimensions of the filter kernel.</span>
+<span class="sd">        `rank` (int): The rank used in the rank-order filter, starts from 1 to the size of the kernel (width * height).</span>
+<span class="sd">        `pad_with` (int, optional): The value used for padding the matrix. If `None`, no padding is applied. Defaults to `None`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: The result of applying the rank-order filter on the matrix.</span>
+
+<span class="sd">    Description:</span>
+<span class="sd">        This function applies a rank-order filter on the `matrix` using a filter kernel of specified dimensions (`kernel_dim`).</span>
+<span class="sd">        The `rank` parameter determines which element in the sorted neighborhood values is selected as the output pixel value.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; matrix = [[1, 2, 3],</span>
+<span class="sd">    ...           [4, 5, 6],</span>
+<span class="sd">    ...           [7, 8, 9]]</span>
+<span class="sd">    &gt;&gt;&gt; kernel_dim = (3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; rank = 3</span>
+<span class="sd">    &gt;&gt;&gt; result = rank_order_filter(matrix, kernel_dim, rank, pad_with = 0)</span>
+<span class="sd">    &gt;&gt;&gt; result</span>
+<span class="sd">    [[0, 0, 0]</span>
+<span class="sd">    ,[0, 3, 0]</span>
+<span class="sd">    ,[0, 0, 0]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">k_width</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_hieght</span> <span class="o">=</span> <span class="n">kernel_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="n">k_width</span> <span class="o">*</span> <span class="n">k_hieght</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rank must be less than or equal the number of elements in the filter&quot;</span><span class="p">)</span>
+
+    <span class="n">output_mat</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">neighbors</span><span class="p">,</span> <span class="n">center</span> <span class="ow">in</span> <span class="n">_get_neighborhood_and_center</span><span class="p">(</span><span class="n">matrix</span><span class="p">,(</span><span class="n">k_width</span><span class="p">,</span><span class="n">k_hieght</span><span class="p">),</span><span class="n">pad_with</span><span class="o">=</span><span class="n">pad_with</span><span class="p">):</span>
+        <span class="c1"># sort the element in the output window</span>
+        <span class="n">sorted_flat_neighbors</span> <span class="o">=</span> <span class="p">[</span><span class="n">elem</span> <span class="k">for</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">neighbors</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+        <span class="n">sorted_flat_neighbors</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="c1"># change the pixel in the original image</span>
+        <span class="n">output_mat</span><span class="p">[</span><span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">sorted_flat_neighbors</span><span class="p">[</span><span class="n">rank</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output_mat</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.roberts_operator" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">roberts_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Applies Roberts cross-gradient operator for edge detection.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>`matrix`</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input image as 2D list</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`bit_depth`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Bit depth for output value clipping</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>`pad_with`</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Padding value for border handling</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Edge-detected image</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <h4 id="DIP.neighborhood_operations.roberts_operator--notes">Notes</h4>
+<p>The Roberts operator uses two 2×2 kernels to compute diagonal gradients:
+Gx = [[-1, 0],     Gy = [[0, -1],
+      [0, 1]]           [1, 0]]</p>
+<p>The final magnitude is computed as: sqrt(Gx² + Gy²)</p>
+<p>Examples:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>img = [[1, 2, 3],
+...        [4, 5, 6],
+...        [7, 8, 9]]
+edges = roberts_operator(img, pad_with=0)</p>
+<h3 id="DIP.neighborhood_operations.roberts_operator--result-highlights-diagonal-edges">Result highlights diagonal edges</h3>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">roberts_operator</span><span class="p">(</span>
+    <span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">bit_depth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pad_with</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Roberts cross-gradient operator for edge detection.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        `matrix` (Matrix): Input image as 2D list</span>
+<span class="sd">        `bit_depth` (int, optional): Bit depth for output value clipping</span>
+<span class="sd">        `pad_with` (int, optional): Padding value for border handling</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Edge-detected image</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The Roberts operator uses two 2×2 kernels to compute diagonal gradients:</span>
+<span class="sd">    Gx = [[-1, 0],     Gy = [[0, -1],</span>
+<span class="sd">          [0, 1]]           [1, 0]]</span>
+
+<span class="sd">    The final magnitude is computed as: sqrt(Gx² + Gy²)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    &gt;&gt;&gt; img = [[1, 2, 3],</span>
+<span class="sd">    ...        [4, 5, 6],</span>
+<span class="sd">    ...        [7, 8, 9]]</span>
+<span class="sd">    &gt;&gt;&gt; edges = roberts_operator(img, pad_with=0)</span>
+<span class="sd">    &gt;&gt;&gt; # Result highlights diagonal edges</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">apply_gradient_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">Kernels</span><span class="o">.</span><span class="n">robert_operator</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="DIP.neighborhood_operations.sobel_operator" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sobel_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bit_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Applies the Sobel operator for edge detection with enhanced sensitivity.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>matrix</code>
+            </td>
+            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Input image as a 2D list.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>bit_depth</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Bit depth for output value clipping.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>pad_with</code>
+            </td>
+            <td>
+                  <code>int</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Padding value for border handling.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>Matrix</code></td>            <td>
+                  <code><span title="DIP.helper.Matrix">Matrix</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Edge-detected image.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="notes" open>
+  <summary>Notes</summary>
+  <p>The Sobel operator uses two 3×3 kernels to compute horizontal and vertical gradients:</p>
+<p>Gx = [[-1, 0, 1],     Gy = [[-1, -2, -1],
+    [-2, 0, 2],           [ 0,  0,  0],
+    [-1, 0, 1]]           [ 1,  2,  1]]</p>
+<p>The final magnitude is computed as: sqrt(Gx² + Gy²).</p>
+</details>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><span class="filename">Python Console Session</span><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>       <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+<span class="gp">... </span>       <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edges</span> <span class="o">=</span> <span class="n">sobel_operator</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">pad_with</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Result highlights vertical and horizontal edges.</span>
+</code></pre></div>
+
+            <details class="quote">
+              <summary>Source code in <code>DIP/neighborhood_operations.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Python</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sobel_operator</span><span class="p">(</span>
+    <span class="n">matrix</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">bit_depth</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pad_with</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies the Sobel operator for edge detection with enhanced sensitivity.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        matrix (Matrix): Input image as a 2D list.</span>
+<span class="sd">        bit_depth (int, optional): Bit depth for output value clipping.</span>
+<span class="sd">        pad_with (int, optional): Padding value for border handling.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Matrix: Edge-detected image.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        The Sobel operator uses two 3×3 kernels to compute horizontal and vertical gradients:</span>
+
+<span class="sd">        Gx = [[-1, 0, 1],     Gy = [[-1, -2, -1],</span>
+<span class="sd">            [-2, 0, 2],           [ 0,  0,  0],</span>
+<span class="sd">            [-1, 0, 1]]           [ 1,  2,  1]]</span>
+
+<span class="sd">        The final magnitude is computed as: sqrt(Gx² + Gy²).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; img = [[1, 2, 3],</span>
+<span class="sd">        ...        [4, 5, 6],</span>
+<span class="sd">        ...        [7, 8, 9]]</span>
+<span class="sd">        &gt;&gt;&gt; edges = sobel_operator(img, pad_with=0)</span>
+<span class="sd">        &gt;&gt;&gt; # Result highlights vertical and horizontal edges.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">apply_gradient_operator</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">Kernels</span><span class="o">.</span><span class="n">sobel_operator</span><span class="p">,</span> <span class="n">bit_depth</span><span class="p">,</span> <span class="n">pad_with</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "header.autohide", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.prune", "navigation.sections", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

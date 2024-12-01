@@ -15,27 +15,27 @@ This project provides tools for solving Digital Image Processing (DIP) problems,
    ```bash
    cd DIP_solver
    ```
-3. **Optionally if you will contribute make virtual environment**
+3. **(Optionally) if you will contribute make virtual environment**
    ```bash
    python -m venv .venv
    ```
-   - **Activate the virtual environment**
+   **Activate the virtual environment**
    ```bash
    .\.venv\Scripts\activate
    ```
 
-   - **Install requirements**
+   **Install requirements**
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Install the Package**
-   - if you will contribute install the package in your environment in editable mode:
+   if you will contribute install the package in your environment in editable mode:
    ```bash
    pip install -e .
    ```
 
-   - install the package and dependencies in your environment:
+   install the package and dependencies in your environment:
    ```bash
    pip install .
    ```

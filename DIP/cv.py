@@ -1,6 +1,6 @@
 from typing import List, Union, Literal
 from DIP.helper import Matrix
-
+from math import log
 def calculate_glcm(
     matrix: Matrix, 
     distance: int, 
@@ -75,3 +75,66 @@ def calculate_glcm(
         return normalized_glcm
     
     return glcm
+
+def agg_glcm(glcm: List[List[float]]) -> tuple[float, float, float]:
+    """
+    Calculate Contrast, Homogeneity, and Entropy from a given normalized Gray Level Co-occurrence Matrix (GLCM).
+
+    Parameters:
+        glcm (list of list of float): The GLCM matrix where glcm[i][j] represents 
+                                      the co-occurrence probability of intensity levels i and j.
+    
+    Returns:
+        tuple: A tuple containing:
+            - Contrast (float): Measures the intensity contrast between a pixel and its neighbor 
+                                over the whole image. Higher values indicate larger intensity differences.
+            - Homogeneity (float): Measures the closeness of the distribution of elements in the GLCM 
+                                   to the diagonal. Higher values indicate a more uniform texture.
+            - Entropy (float): Measures the randomness of the intensity distribution in the GLCM. 
+                               Higher values indicate more complex textures.
+
+    Definitions:
+        - Contrast: 
+          Formula: sum((i - j)^2 * P(i, j)) for all i, j.
+          Interpretation: High contrast means the image has sharp intensity differences.
+
+        - Homogeneity:
+          Formula: sum(P(i, j) / (1 + (i - j)^2)) for all i, j.
+          Interpretation: High homogeneity means the texture is uniform.
+
+        - Entropy:
+          Formula: -sum(P(i, j) * log(P(i, j))) for all i, j.
+          Interpretation: High entropy means the image texture is more complex or random.
+
+    Example:
+        glcm = [
+            [0.1, 0.2, 0.0],
+            [0.2, 0.4, 0.1],
+            [0.0, 0.1, 0.0]
+        ]
+        contrast, homogeneity, entropy = agg_glcm(glcm)
+    """
+    contrast = 0
+    homogeneity = 0
+    entropy = 0
+
+    # Calculate dimensions of the GLCM
+    size = len(glcm)
+
+    for i in range(size):
+        for j in range(size):
+            # Get the value at position (i, j)
+            p = glcm[i][j]
+
+            # Contrast calculation
+            contrast += (i - j) ** 2 * p
+
+            # Homogeneity calculation
+            homogeneity += p / (1 + (i - j)**2)
+
+            # Entropy calculation (only if p > 0 to avoid log(0))
+            if p > 0:
+                entropy -= p * log(p)
+
+    return round(contrast, 3), round(homogeneity, 3), round(entropy, 3)
+

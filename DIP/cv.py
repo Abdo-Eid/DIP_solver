@@ -1,6 +1,8 @@
 from typing import List, Union, Literal
 from DIP.helper import Matrix
 from math import log
+from DIP.neighborhood_operations import _get_neighborhood_and_center
+
 def calculate_glcm(
     matrix: Matrix, 
     distance: int, 
@@ -138,3 +140,48 @@ def agg_glcm(glcm: List[List[float]]) -> tuple[float, float, float]:
 
     return round(contrast, 3), round(homogeneity, 3), round(entropy, 3)
 
+def LBP(matrix: Matrix, mean: bool = False) -> Matrix:
+    """
+    Compute the Local Binary Pattern (LBP) for an image matrix.
+
+    Parameters:
+        matrix (Matrix): Input image matrix
+        mean (bool): If True, use mean of neighborhood as threshold. If False, use center pixel. Default False.
+
+    Returns:
+        Matrix: LBP transformed image matrix
+
+    Description:
+        For each pixel, compares it with its 8 neighbors. If neighbor >= center pixel value,
+        outputs 1, else 0. These 8 bits form a binary number which becomes the new pixel value.
+        When mean=True, uses neighborhood mean instead of center pixel as threshold.
+    """
+    height = len(matrix)
+    width = len(matrix[0])
+    
+    # Initialize output matrix
+    output = [[0 for _ in range(width)] for _ in range(height)]
+    
+    # Get neighborhoods using 3x3 kernel
+    for neighborhood, center in _get_neighborhood_and_center(matrix, (3,3)):
+        # Get threshold value (either center pixel or mean)
+        if mean:
+            threshold = sum(sum(row) for row in neighborhood) / 9
+        else:
+            center_val = neighborhood[1][1]
+            threshold = center_val
+            
+        # Calculate binary pattern
+        pattern = 0
+        power = 0
+        
+        # Compare neighbors clockwise starting from top-left
+        for i, j in [(0,0), (0,1), (0,2), (1,2), (2,2), (2,1), (2,0), (1,0)]:
+            if neighborhood[i][j] >= threshold:
+                pattern += 2**power
+            power += 1
+            
+        # Store pattern in output
+        output[center[0]][center[1]] = pattern
+        
+    return output

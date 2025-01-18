@@ -669,3 +669,15 @@ def trim(matrix: Matrix, trim_amount: Tuple[int, int]) -> Matrix:
     trimmed_matrix = [row[trim_width:num_cols - trim_width] for row in trimmed_matrix]
 
     return trimmed_matrix
+def mat_like(matrix, value = 0):
+    """
+    Create a new matrix of the same shape as the input matrix, filled with value.
+    Args:
+        matrix (list): The input matrix to create a zero-like matrix from.
+    Returns:
+        list: A new matrix of value with the same dimensions as the input matrix.
+    """
+    num_rows = len(matrix)
+    num_cols = len(matrix[0]) if num_rows > 0 else 0
+    return [[value] * num_cols for _ in range(num_rows)]
+
